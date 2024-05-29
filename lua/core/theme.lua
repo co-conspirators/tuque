@@ -103,6 +103,14 @@ return {
 				MiniClueTitle = { fg = '$blue', bg = '$bg_d' },
 				MiniClueDescGroup = { fg = '$grey', bg = '$bg_d' },
 
+				TelescopePreviewBorder = { fg = '$grey' },
+				TelescopePromptBorder = { fg = '$grey' },
+				TelescopeResultsBorder = { fg = '$grey' },
+
+				TelescopePreviewTitle = { fg = '$blue' },
+				TelescopePromptTitle = { fg = '$blue' },
+				TelescopeResultsTitle = { fg = '$blue' },
+
 				--- CMP
 				-- CmpItemMenu = { fg = '$light_grey' },
 				-- -- abbreviations

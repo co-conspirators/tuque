@@ -1,20 +1,18 @@
 return {
 	{
-		enabled = false,
-		'nvim-telescope/telescope-fzf-native.nvim',
+		'nvim-telescope/telescope-fzy-native.nvim',
 		dependencies = {
+			{ 'romgrk/fzy-lua-native', build = 'make' },
 			'nvim-telescope/telescope.nvim',
 		},
-		build = 'make',
 		config = function()
-			require('telescope').load_extension('fzf')
+			require('telescope').load_extension('fzy_native')
 		end,
 	},
 	{
 		'nvim-telescope/telescope.nvim',
 		dependencies = { 'nvim-lua/plenary.nvim' },
 		keys = {
-			{ '<leader><enter>', '<cmd>Telescope find_files<cr>', desc = 'Files' },
 			{ '<leader>.', '<cmd>Telescope buffers sort_mru=true sort_lastused=true<cr>', desc = 'Buffers' },
 			{ '<leader>:', '<cmd>Telescope command_history<cr>', desc = 'Command History' },
 			{ '<leader>/', '<cmd>Telescope live_grep<cr>', desc = 'Grep' },
@@ -26,13 +24,13 @@ return {
 			-- find
 			{ '<leader>ff', '<cmd>Telescope git_files<cr>', desc = 'Find Git Files' },
 			{ '<leader>fr', '<cmd>Telescope oldfiles<cr>', desc = 'Recent' },
+			-- { '<leader>fR', Util.telescope('oldfiles', { cwd = vim.loop.cwd() }), desc = 'Recent (cwd)' },
 			{
 				'<leader>fc',
 				'<cmd>lua require("telescope.builtin").find_files({ cwd = "~/.config" })<cr>',
 				desc = 'Find .config file',
 			},
 			{ '<leader>fg', "<cmd>lua require'telescope'.extensions.repo.list{}<cr>", desc = 'Git Repositories' },
-			-- { '<leader>fR', Util.telescope('oldfiles', { cwd = vim.loop.cwd() }), desc = 'Recent (cwd)' },
 
 			-- git
 			{ '<leader>gc', '<cmd>Telescope git_commits<cr>', desc = 'commits' },
@@ -54,13 +52,39 @@ return {
 			{ '<leader>cl', '<cmd>Telescope filetypes<cr>', desc = 'Pick Language' },
 		},
 		opts = function()
+			-- local resolve = require('telescope.resolve')
 			local actions = require('telescope.actions')
 			return {
-				lsp_dynamic_workspace_symbols = {},
 				defaults = {
-					prompt_prefix = ' ',
-					selection_caret = ' ',
-					-- todo: not working
+					preview = {
+						treesitter = {
+							-- disable for languages where the semantic highlighting is good enough
+							-- since it adds stutter on every buffer load
+							disable = { 'javascript', 'typescript', 'typescriptreact', 'javascriptreact', 'nix' },
+						},
+					},
+
+					scroll_strategy = 'limit', -- don't rollover when scrolling
+					sorting_strategy = 'ascending', -- show best result at the top
+					layout_strategy = 'center',
+					layout_config = {
+						prompt_position = 'top',
+						scroll_speed = 4,
+						center = { width = 110 },
+					},
+
+					prompt_prefix = '  ',
+					selection_caret = '',
+					entry_prefix = ' ',
+					border = true,
+					borderchars = {
+						prompt = { '─', '│', '─', '│', '┌', '┐', '│', '│' },
+						results = { '─', '│', '─', '│', '├', '┤', '┘', '└' },
+						preview = { '─', '│', '─', '│', '┌', '┐', '┘', '└' },
+					},
+					preview_title = false, -- disable
+					results_title = false, -- disable
+
 					-- open files in the first window that is an actual file.
 					-- use the current window if no other window is available.
 					get_selection_window = function()
@@ -77,10 +101,10 @@ return {
 					file_ignore_patterns = { 'node_modules' },
 					mappings = {
 						i = {
-							['<C-Down>'] = actions.cycle_history_next,
-							['<C-Up>'] = actions.cycle_history_prev,
-							['<C-f>'] = actions.preview_scrolling_down,
-							['<C-b>'] = actions.preview_scrolling_up,
+							['<C-Left>'] = actions.cycle_history_prev,
+							['<C-Right>'] = actions.cycle_history_next,
+							['<C-Up>'] = actions.preview_scrolling_up,
+							['<C-Down>'] = actions.preview_scrolling_down,
 						},
 						n = {
 							['q'] = actions.close,
@@ -88,6 +112,25 @@ return {
 					},
 				},
 			}
+		end,
+	},
+
+	-- smarter file opening
+	{
+		'danielfalk/smart-open.nvim',
+		branch = '0.2.x',
+		dependencies = { 'kkharji/sqlite.lua' },
+		keys = {
+			{
+				'<leader><enter>',
+				function()
+					require('telescope').extensions.smart_open.smart_open({ cwd_only = true })
+				end,
+				desc = 'Files',
+			},
+		},
+		config = function()
+			require('telescope').load_extension('smart_open')
 		end,
 	},
 
