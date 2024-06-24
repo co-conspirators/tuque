@@ -7,6 +7,26 @@ return {
 			icons = true,
 			diagnostics = true,
 			buf_modified = true,
+      filetype_exclude = {
+        "blink-tree",
+
+        -- defaults
+        "help",
+        "startify",
+        "dashboard",
+        "packer",
+        "neo-tree",
+        "neogitstatus",
+        "NvimTree",
+        "Trouble",
+        "alpha",
+        "lir",
+        "Outline",
+        "spectre_panel",
+        "toggleterm",
+        "TelescopePrompt",
+        "prompt",
+      },
 		},
 	},
 
@@ -38,9 +58,8 @@ return {
 				},
 			},
 			left = {
-				{
-					ft = 'neo-tree',
-				},
+			  { ft = 'blink-tree' },
+        { ft = 'neo-tree' },
 			},
 			right = {
 				{

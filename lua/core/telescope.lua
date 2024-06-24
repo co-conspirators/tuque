@@ -74,7 +74,7 @@ return {
 					},
 
 					prompt_prefix = '  ',
-					selection_caret = '',
+					selection_caret = ' ',
 					entry_prefix = ' ',
 					border = true,
 					borderchars = {

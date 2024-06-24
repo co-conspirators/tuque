@@ -2,7 +2,7 @@ return {
 	-- project and session management
 	{
 		'coffebar/neovim-project',
-		lazy = false,
+		lazy = vim.fn.getcwd() == os.getenv('HOME'),
 		dependencies = {
 			'nvim-lua/plenary.nvim',
 			'Shatur/neovim-session-manager',

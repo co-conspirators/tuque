@@ -104,12 +104,7 @@ return {
 		require('neo-tree').setup({
 			async_directory_scan = 'always',
 			enable_diagnostics = false, -- todo: nukes perf
-			sources = {
-				'filesystem',
-				'buffers',
-				'git_status',
-				-- 'document_symbols',
-			},
+			sources = { 'filesystem' },
 			-- when opening a file, do not replace the current buffer in a window with one of these types
 			open_files_do_not_replace_types = { 'terminal', 'trouble', 'edgy' },
 			sort_case_insensitive = true,
@@ -166,6 +161,10 @@ return {
 			},
 
 			nesting_rules = {
+				['flake'] = {
+					pattern = '^flake%.nix$',
+					files = { 'flake.lock' },
+				},
 				['package.json'] = {
 					pattern = '^package%.json$',
 					files = {
@@ -173,8 +172,9 @@ return {
 						'yarn*',
 						'pnpm-lock.yaml',
 						'biome.json',
-						'.prettierrc',
+						'.prettier*',
 						'.eslintrc*',
+						'eslint.config.*',
 						'.lintstagedrc*',
 						'bun.lockb',
 					},

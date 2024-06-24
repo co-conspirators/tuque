@@ -3,20 +3,6 @@ vim.cmd([[autocmd BufRead,BufNewFile *.rasi set syntax=css]])
 
 local autocmd = vim.api.nvim_create_autocmd
 
--- hide kitty padding when entering and restore on exit
-vim.system(
-	{ 'kitty', '@', '--to=' .. vim.env.KITTY_LISTEN_ON, 'set-spacing', 'padding=0' },
-	{ stdout = false, stderr = false }
-)
-autocmd('VimLeavePre', {
-	callback = function()
-		vim.system(
-			{ 'kitty', '@', '--to=' .. vim.env.KITTY_LISTEN_ON, 'set-spacing', 'padding=8' },
-			{ stdout = false, stderr = false }
-		)
-	end,
-})
-
 -- Check if we need to reload the file when it changed
 autocmd({ 'FocusGained', 'TermClose', 'TermLeave' }, {
 	command = 'checktime',

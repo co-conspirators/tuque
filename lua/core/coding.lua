@@ -55,6 +55,8 @@ return {
 			{ 'gsr', desc = 'Replace surrounding' },
 		},
 		opts = {
+			-- Number of lines within which surrounding is searched
+			n_lines = 50,
 			mappings = {
 				add = 'gsa', -- Add surrounding in Normal and Visual modes
 				delete = 'gsd', -- Delete surrounding

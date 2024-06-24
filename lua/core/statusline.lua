@@ -1,5 +1,6 @@
 return {
 	{
+		enabled = false,
 		'rebelot/heirline.nvim',
 		dependencies = { 'lewis6991/gitsigns.nvim' },
 		config = function()

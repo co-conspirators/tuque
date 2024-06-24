@@ -41,7 +41,7 @@ opt.shortmess:append('I')
 
 -- statusline
 opt.cmdheight = 0
-opt.laststatus = 3
+opt.laststatus = 0
 
 -- Default splitting will cause your main splits to jump when opening an edgebar.
 -- To prevent this, set `splitkeep` to either `screen` or `topline`.
@@ -59,6 +59,9 @@ opt.fillchars = {
 	eob = ' ',
 
 	vert = ' ',
+	horiz = ' ',
+	horizup = ' ',
+	horizdown = ' ',
 }
 
 opt.mouse = 'a'

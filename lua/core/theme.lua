@@ -11,7 +11,6 @@ return {
 	-- main theme
 	{
 		'navarasu/onedark.nvim',
-		name = 'onedark',
 		lazy = false,
 		priority = 1000,
 		config = function(_, opts)
@@ -69,8 +68,8 @@ return {
 				WinSeparator = { fg = '$bg2', bg = '$bg_d' },
 				WinBar = { bg = '$bg0' },
 				WinBarNC = { bg = '$bg0' },
-				StatusLine = { bg = '$bg0' },
-				StatusLineNC = { bg = '$bg0' },
+				StatusLine = { bg = '$bg0', fg = '$bg0' },
+				StatusLineNC = { bg = '$bg0', fg = '$bg0' },
 
 				BufferCurrentMod = { fg = '$yellow', fmt = 'bold' },
 
@@ -88,6 +87,9 @@ return {
 				NeoTreeTabInactive = { bg = '$bg_d' },
 				NeoTreeTabActive = { bg = '$bg1' },
 				NeoTreeWinSeparator = { fg = '$bg2', bg = '$bg_d' },
+
+				BlinkTreeNormal = { bg = '$bg_d' },
+				BlinkTreeNormalNC = { bg = '$bg_d' },
 
 				ModeNormal = { fg = '$green' },
 				ModeInsert = { fg = '$blue' },
