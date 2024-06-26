@@ -8,6 +8,7 @@ return {
 			'Shatur/neovim-session-manager',
 			'nvim-telescope/telescope.nvim',
 		},
+		cmd = { 'NeovimProjectLoad', 'NeovimProjectLoadDashboard' },
 		keys = {
 			{ '<leader>fp', '<cmd>Telescope neovim-project discover<cr>', desc = 'Projects' },
 			{ '<leader>fs', '<cmd>Telescope neovim-project history<cr>', desc = 'Sessions' },
