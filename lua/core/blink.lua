@@ -1,6 +1,6 @@
 return {
 	{
-		'tuque/blink.nvim',
+		'saghen/blink.nvim',
 		dependencies = {
 			{ 'garymjr/nvim-snippets', opts = { create_cmp_source = false } },
 		},
@@ -30,18 +30,10 @@ return {
 			{ '<leader>e', '<cmd>BlinkTree toggle-focus<cr>', desc = 'Toggle file tree focus' },
 		},
 		opts = {
-			chartoggle = {
-				enabled = true,
-			},
-			cmp = {
-				enabled = true,
-			},
-			indent = {
-				enabled = true,
-			},
-			tree = {
-				enabled = true,
-			},
+			chartoggle = { enabled = true },
+			cmp = { enabled = true },
+			indent = { enabled = true },
+			tree = { enabled = true },
 		},
 	},
 }
