@@ -22,29 +22,4 @@ return {
 			console_timeout = 4000,
 		},
 	},
-
-	-- github integration
-	{
-		'pwntester/octo.nvim',
-		keys = {
-			{ '<leader>ghi', '<cmd>Octo issue list<cr>', desc = 'GH Issues' },
-			{ '<leader>ghp', '<cmd>Octo pr list<cr>', desc = 'GH PRs' },
-		},
-		opts = {
-			default_to_projects_v2 = true,
-		},
-	},
-
-	-- highlighting
-	{
-		'nvim-treesitter/nvim-treesitter',
-		opts = function(_, opts)
-			if type(opts.ensure_installed) == 'table' then
-				vim.list_extend(
-					opts.ensure_installed,
-					{ 'git_config', 'git_rebase', 'gitattributes', 'gitcommit', 'gitignore' }
-				)
-			end
-		end,
-	},
 }

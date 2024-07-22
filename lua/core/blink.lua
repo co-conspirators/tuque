@@ -1,8 +1,12 @@
 return {
 	{
 		'tuque/blink.nvim',
+		dependencies = {
+			{ 'garymjr/nvim-snippets', opts = { create_cmp_source = false } },
+		},
 		lazy = false,
 		dev = true,
+		cmd = 'BlinkTree',
 		build = 'make',
 		keys = {
 			{
@@ -25,8 +29,19 @@ return {
 			{ '<leader>E', '<cmd>BlinkTree toggle<cr>', desc = 'Reveal current file in tree' },
 			{ '<leader>e', '<cmd>BlinkTree toggle-focus<cr>', desc = 'Toggle file tree focus' },
 		},
-		config = function()
-			require('blink').setup()
-		end,
+		opts = {
+			chartoggle = {
+				enabled = true,
+			},
+			cmp = {
+				enabled = true,
+			},
+			indent = {
+				enabled = true,
+			},
+			tree = {
+				enabled = true,
+			},
+		},
 	},
 }

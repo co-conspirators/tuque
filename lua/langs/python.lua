@@ -2,25 +2,21 @@ return {
 	-- pick venv (supports all major managers)
 	{
 		'linux-cultist/venv-selector.nvim',
+		branch = 'regexp',
 		cmd = 'VenvSelect',
 		opts = {
-			dap_enabled = false,
-			name = {
-				'venv',
-				'.venv',
-				'env',
-				'.env',
+			-- todo: custom queries and disable built in because slow
+			-- todo: hook into sessions to auto load venv
+			-- todo: requires manually restarting LSPs so should happen automatically
+			settings = {
+				search = {
+					root = {
+						command = 'echo ~/.venv/bin/python',
+					},
+				},
 			},
 		},
 		keys = { { '<leader>cv', '<cmd>:VenvSelect<cr>', desc = 'Select VirtualEnv' } },
-	},
-	-- formatting
-	{
-		'stevearc/conform.nvim',
-		opts = {
-			-- todo: add ruff
-			formatters_by_ft = { ['python'] = { 'black' } },
-		},
 	},
 	-- treesitter
 	{
@@ -31,14 +27,15 @@ return {
 			end
 		end,
 	},
-	-- LSP
+	-- LSP/formatting
 	{
 		'neovim/nvim-lspconfig',
-		opts = {
-			servers = {
-				pyright = {},
-				ruff_lsp = {},
-			},
-		},
+		opts = function(_, opts)
+			opts.servers.pyright = {}
+			opts.servers.ruff_lsp = {}
+
+			table.insert(opts.servers.efm.filetypes, 'python')
+			opts.servers.efm.settings.languages.python = { require('efmls-configs.formatters.black') }
+		end,
 	},
 }

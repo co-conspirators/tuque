@@ -8,34 +8,14 @@ return {
 			end
 		end,
 	},
-	-- LSP
+	-- LSP/formatting
 	{
 		'neovim/nvim-lspconfig',
-		opts = {
-			servers = {
-				nil_ls = {},
-			},
-		},
-	},
-	-- formatting
-	{
-		'stevearc/conform.nvim',
-		opts = {
-			formatters_by_ft = {
-				nix = { 'nixfmt' },
-			},
-			formatters = {
-				nixfmt = {
-					command = 'nixfmt',
-					stdin = true,
-					-- args = { '$FILENAME' },
-				},
-			},
-		},
-	},
-	-- extra language support
-	{
-		'LnL7/vim-nix',
-		event = 'VeryLazy',
+		opts = function(_, opts)
+			opts.servers.nil_ls = {}
+
+			table.insert(opts.servers.efm.filetypes, 'nix')
+			opts.servers.efm.settings.languages.nix = { require('efmls-configs.formatters.nixfmt') }
+		end,
 	},
 }

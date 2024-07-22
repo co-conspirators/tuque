@@ -10,7 +10,7 @@ return {
 	{
 		enabled = false,
 		'folke/trouble.nvim',
-		dependencies = { 'nvim-tree/nvim-web-devicons' },
+		dependencies = { 'rachartier/tiny-devicons-auto-colors.nvim' },
 		keys = {
 			{ '<leader>xx', '<cmd>Trouble<cr>', desc = 'Diagnostics' },
 			{ '<leader>xw', '<cmd>Trouble workspace_diagnostics<cr>', desc = 'Workspace Diagnostics' },
@@ -30,7 +30,6 @@ return {
 	-- TODO: remove the lowercase keywords since it's non-standard
 	-- TODO: rewrite this myself
 	{
-		enabled = false,
 		'folke/todo-comments.nvim',
 		opts = {
 			keywords = {

@@ -1,6 +1,3 @@
-vim.cmd([[autocmd BufRead,BufNewFile ~/.config/waybar/config set syntax=jsonc]])
-vim.cmd([[autocmd BufRead,BufNewFile *.rasi set syntax=css]])
-
 local autocmd = vim.api.nvim_create_autocmd
 
 -- Check if we need to reload the file when it changed

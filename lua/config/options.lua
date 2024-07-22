@@ -9,7 +9,7 @@ g.mapleader = ' '
 g.maplocalleader = '\\'
 
 opt.completeopt = 'menu,menuone,preview'
-opt.clipboard = 'unnamed'
+opt.clipboard = ''
 
 opt.conceallevel = 2 -- Hide * markup for bold and italic
 opt.confirm = true -- Confirm to save changes before exiting modified buffer
@@ -35,6 +35,12 @@ opt.undolevels = 10000
 opt.updatetime = 200 -- Save swap file and trigger CursorHold
 opt.virtualedit = 'block' -- Allow cursor to move where there is no text in visual block mode
 opt.wrap = true -- Line wrapping
+
+-- folds
+vim.o.foldcolumn = '0'
+vim.o.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
+vim.o.foldlevelstart = 99
+vim.o.foldenable = true
 
 -- don't show the neovim dashboard
 opt.shortmess:append('I')
@@ -82,4 +88,17 @@ if g.neovide then
 	-- https://github.com/neovide/neovide/issues/1325#issuecomment-1281570219
 	-- g.neovide_font_hinting = 'none'
 	-- g.neovide_font_edging = 'subpixelantialias'
+end
+
+local query_parse = vim.treesitter.query.parse
+local cache = {}
+
+vim.treesitter.query.parse = function(lang, query)
+	local hash = lang .. '-' .. vim.fn.sha256(query)
+	if cache[hash] then
+		return cache[hash]
+	end
+	local result = query_parse(lang, query)
+	cache[hash] = result
+	return result
 end

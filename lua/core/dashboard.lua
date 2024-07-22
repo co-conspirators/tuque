@@ -1,6 +1,6 @@
 return {
 	'nvimdev/dashboard-nvim',
-	dependencies = { 'navarasu/onedark.nvim', 'nvim-tree/nvim-web-devicons' },
+	dependencies = { 'navarasu/onedark.nvim', 'rachartier/tiny-devicons-auto-colors.nvim' },
 	opts = {
 		theme = 'hyper',
 		config = {

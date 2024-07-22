@@ -1,4 +1,5 @@
 return {
+	enabled = os.getenv('NVIM_PROFILE') ~= nil,
 	'stevearc/profile.nvim',
 	config = function(_, __)
 		local should_profile = os.getenv('NVIM_PROFILE')
@@ -26,7 +27,7 @@ return {
 					end
 				end)
 			else
-				prof.start('*')
+				prof.start('neo-tree.*')
 			end
 		end
 		vim.keymap.set('', '<f1>', toggle_profile)

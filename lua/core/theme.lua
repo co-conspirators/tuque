@@ -31,9 +31,11 @@ return {
 				light_grey = vim.g.colors.overlay_2,
 
 				-- todo: change these
-				dark_bg_blue = '#202d37',
+				dark_bg_blue = '#16334B',
 				dark_bg_green = '#2b3425',
 				dark_bg_red = '#301c1e',
+				dark_bg_yellow = '#685127',
+				dark_bg_purple = '#42204C',
 
 				-- blue = vim.g.colors.blue,
 				-- cyan = vim.g.colors.cyan,
@@ -82,14 +84,19 @@ return {
 
 				DashboardHeader = { fg = '$blue' },
 
-				NeoTreeMessage = { fg = '$light_grey' },
-				NeoTreeRootName = { fg = '$light_grey' },
-				NeoTreeTabInactive = { bg = '$bg_d' },
-				NeoTreeTabActive = { bg = '$bg1' },
-				NeoTreeWinSeparator = { fg = '$bg2', bg = '$bg_d' },
-
 				BlinkTreeNormal = { bg = '$bg_d' },
 				BlinkTreeNormalNC = { bg = '$bg_d' },
+				BlinkTreeIndent = { fg = '$bg3' },
+				BlinkTreeModified = { fg = '$yellow' },
+				BlinkTreeGitStaged = { fg = '$green' },
+				BlinkTreeGitModified = { fg = '$yellow' },
+				BlinkTreeGitAdded = { fg = '$blue' },
+				BlinkTreeGitConflict = { fg = '$red' },
+				BlinkTreeGitUntracked = { fg = '$red' },
+				BlinkTreeFlagCut = { fg = '$green', fmt = 'italic' },
+				BlinkTreeFlagCopy = { fg = '$blue', fmt = 'italic' },
+
+				BlinkIndent = { fg = '$bg2' },
 
 				ModeNormal = { fg = '$green' },
 				ModeInsert = { fg = '$blue' },
@@ -104,6 +111,7 @@ return {
 				MiniClueSeparator = { fg = '$bg2' },
 				MiniClueTitle = { fg = '$blue', bg = '$bg_d' },
 				MiniClueDescGroup = { fg = '$grey', bg = '$bg_d' },
+				MiniClueDescSingle = { bg = '$bg_d' },
 
 				TelescopePreviewBorder = { fg = '$grey' },
 				TelescopePromptBorder = { fg = '$grey' },

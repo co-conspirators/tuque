@@ -166,8 +166,9 @@ map('v', '<leader>Y', function()
 	})
 
 	local redirect_url = response.body
+	local extension = filetype_to_extensions[vim.bo.filetype] or 'txt'
 	if redirect_url then
-		vim.fn.setreg('+', 'https://paste.super.fish' .. redirect_url .. '.' .. filetype_to_extensions[vim.bo.filetype])
+		vim.fn.setreg('+', 'https://paste.super.fish' .. redirect_url .. '.' .. extension)
 		vim.notify('Copied to clipboard and system clipboard')
 	else
 		vim.notify('Failed to upload to pastebin')

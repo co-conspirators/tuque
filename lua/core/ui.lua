@@ -1,12 +1,58 @@
 return {
+  -- folding
+  {
+    enabled = false,
+    'kevinhwang91/nvim-ufo',
+    dependencies ={ 'kevinhwang91/promise-async' },
+    opts = {
+      -- dont fold by default
+      close_fold_kinds_for_ft = { default = {} },
+      -- use treesitter for finding folds
+      provider_selector = function(_, _, _)
+          return {'treesitter', 'indent'}
+      end,
+      -- Adding number suffix of folded lines instead of the default ellipsis
+      -- https://github.com/kevinhwang91/nvim-ufo?tab=readme-ov-file#customize-fold-text
+      fold_virt_text_handler = function(virtText, lnum, endLnum, width, truncate)
+        local newVirtText = {}
+        local suffix = (' 󰁂 %d '):format(endLnum - lnum)
+        local sufWidth = vim.fn.strdisplaywidth(suffix)
+        local targetWidth = width - sufWidth
+        local curWidth = 0
+        for _, chunk in ipairs(virtText) do
+          local chunkText = chunk[1]
+          local chunkWidth = vim.fn.strdisplaywidth(chunkText)
+          if targetWidth > curWidth + chunkWidth then
+            table.insert(newVirtText, chunk)
+          else
+            chunkText = truncate(chunkText, targetWidth - curWidth)
+            local hlGroup = chunk[2]
+            table.insert(newVirtText, {chunkText, hlGroup})
+            chunkWidth = vim.fn.strdisplaywidth(chunkText)
+            -- str width returned from truncate() may less than 2nd argument, need padding
+            if curWidth + chunkWidth < targetWidth then
+                suffix = suffix .. (' '):rep(targetWidth - curWidth - chunkWidth)
+            end
+            break
+          end
+          curWidth = curWidth + chunkWidth
+        end
+        table.insert(newVirtText, {suffix, 'MoreMsg'})
+        return newVirtText
+      end
+    }
+  },
+
 	-- top bar
 	{
 		'ramilito/winbar.nvim',
-		dependencies = { 'nvim-tree/nvim-web-devicons' },
+    commit = "4f2edd51e12a94be4ec3157ccd60b66d11b1933c",
+		dependencies = { 'rachartier/tiny-devicons-auto-colors.nvim' },
 		opts = {
 			icons = true,
 			diagnostics = true,
 			buf_modified = true,
+      buf_modified_symbol = "●",
       filetype_exclude = {
         "blink-tree",
 
@@ -75,6 +121,7 @@ return {
 
 	-- experimental UI
 	{
+    enabled = false,
 		'folke/noice.nvim',
 		dependencies = { 'MunifTanjim/nui.nvim', 'j-hui/fidget.nvim' },
 		opts = {

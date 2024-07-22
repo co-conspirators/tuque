@@ -1,4 +1,4 @@
--- uses biome when available, fallback to prettierd
+-- todo: uses biome when available, fallback to prettierd
 local choose_formatter = function()
 	local cwd = vim.fn.getcwd()
 	local has_biome = vim.fn.filereadable(cwd .. '/biome.json')
@@ -9,55 +9,11 @@ return {
 	-- auto pairs for JSX
 	{
 		'windwp/nvim-ts-autotag',
-		dependencies = { 'nvim-treesitter/nvim-treesitter' },
-		config = function()
-			require('nvim-treesitter.configs').setup({
-				autotag = {
-					enable = true,
-				},
-			})
-		end,
+		dependencies = { { 'nvim-treesitter/nvim-treesitter', opts = { autotag = { enable = true } } } },
+		opts = {},
 	},
 
-	-- linting/formatting
-	{
-		'neovim/nvim-lspconfig',
-		opts = {
-			servers = {
-				eslint = {},
-				biome = {},
-				svelte = {},
-				-- fixme: had to include them here to make it work ???
-				-- didn't work when putting in fp.lua
-				purescriptls = {},
-				hls = {},
-			},
-		},
-	},
-	{
-		'stevearc/conform.nvim',
-		opts = {
-			formatters_by_ft = {
-				javascript = choose_formatter,
-				javascriptreact = choose_formatter,
-				typescript = choose_formatter,
-				typescriptreact = choose_formatter,
-				vue = choose_formatter,
-				css = choose_formatter,
-				scss = choose_formatter,
-				less = choose_formatter,
-				html = choose_formatter,
-				json = choose_formatter,
-				jsonc = choose_formatter,
-				yaml = choose_formatter,
-				graphql = { 'prettierd' },
-				handlebars = { 'prettierd' },
-				svelte = { 'prettierd' },
-			},
-		},
-	},
-
-	-- LSP
+	-- treesitter
 	{
 		'nvim-treesitter/nvim-treesitter',
 		opts = function(_, opts)
@@ -75,6 +31,51 @@ return {
 			end
 		end,
 	},
+
+	-- linting/formatting
+	{
+		'neovim/nvim-lspconfig',
+		opts = function(_, opts)
+			opts.servers.eslint = {}
+			opts.servers.biome = {}
+			opts.servers.svelte = {}
+
+			-- formatting
+			vim.list_extend(opts.servers.efm.filetypes, {
+				'javascript',
+				'javascriptreact',
+				'typescript',
+				'typescriptreact',
+				'css',
+				'scss',
+				'less',
+				'html',
+				'json',
+				'jsonc',
+				'yaml',
+				'graphql',
+				'handlebars',
+				'svelte',
+			})
+			local prettierd = require('efmls-configs.formatters.prettier_d')
+			opts.servers.efm.settings.languages.javascript = { prettierd }
+			opts.servers.efm.settings.languages.javascriptreact = { prettierd }
+			opts.servers.efm.settings.languages.typescript = { prettierd }
+			opts.servers.efm.settings.languages.typescriptreact = { prettierd }
+			opts.servers.efm.settings.languages.css = { prettierd }
+			opts.servers.efm.settings.languages.scss = { prettierd }
+			opts.servers.efm.settings.languages.less = { prettierd }
+			opts.servers.efm.settings.languages.html = { prettierd }
+			opts.servers.efm.settings.languages.json = { prettierd }
+			opts.servers.efm.settings.languages.jsonc = { prettierd }
+			opts.servers.efm.settings.languages.yaml = { prettierd }
+			opts.servers.efm.settings.languages.graphql = { prettierd }
+			opts.servers.efm.settings.languages.handlebars = { prettierd }
+			opts.servers.efm.settings.languages.svelte = { prettierd }
+		end,
+	},
+
+	-- LSP
 
 	-- performs drastically better than tsserver because we can limit the number of entries
 	-- todo: shows symbols from node_modules, mitigated via telescope

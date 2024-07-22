@@ -48,6 +48,7 @@ return {
 			},
 			session_manager_opts = {
 				autosave_ignore_buftypes = { 'nowrite' },
+				autosave_ignore_filetypes = { 'blink-tree' },
 			},
 		},
 	},
