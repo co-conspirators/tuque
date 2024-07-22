@@ -9,7 +9,7 @@ return {
 	-- auto pairs for JSX
 	{
 		'windwp/nvim-ts-autotag',
-		dependencies = { { 'nvim-treesitter/nvim-treesitter', opts = { autotag = { enable = true } } } },
+		dependencies = { 'nvim-treesitter/nvim-treesitter' },
 		opts = {},
 	},
 
