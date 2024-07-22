@@ -38,9 +38,9 @@ return {
 				'terraform-vars',
 			})
 			local terraform_fmt = require('efmls-configs.formatters.terraform_fmt')
-			opts.servers.efm.languages.terraform = { terraform_fmt }
-			opts.servers.efm.languages.tf = { terraform_fmt }
-			opts.servers.efm.languages['terraform-vars'] = { terraform_fmt }
+			opts.servers.efm.settings.languages.terraform = { terraform_fmt }
+			opts.servers.efm.settings.languages.tf = { terraform_fmt }
+			opts.servers.efm.settings.languages['terraform-vars'] = { terraform_fmt }
 		end,
 	},
 }
