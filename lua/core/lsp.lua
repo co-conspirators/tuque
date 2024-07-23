@@ -94,6 +94,7 @@ return {
 				efm = {
 					filetypes = {},
 					settings = {
+						version = 2,
 						rootMarkers = { '.git/' },
 						languages = {},
 					},
