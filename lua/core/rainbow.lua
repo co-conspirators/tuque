@@ -9,11 +9,6 @@ return {
 			query = {
 				[''] = 'rainbow-delimiters',
 			},
-			highlight = {
-				'RainbowOrange',
-				'RainbowPurple',
-				'RainbowBlue',
-			},
 		})
 	end,
 }

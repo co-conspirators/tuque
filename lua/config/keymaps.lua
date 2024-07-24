@@ -16,14 +16,6 @@ map('n', '<C-j>', '<C-w>j', { desc = 'Go to lower window', remap = true })
 map('n', '<C-k>', '<C-w>k', { desc = 'Go to upper window', remap = true })
 map('n', '<C-l>', '<C-w>l', { desc = 'Go to right window', remap = true })
 
--- Move Lines
-map('n', '<A-n>', '<cmd>m .+1<cr>==', { desc = 'Move down' })
-map('n', '<A-e>', '<cmd>m .-2<cr>==', { desc = 'Move up' })
-map('i', '<A-n>', '<esc><cmd>m .+1<cr>==gi', { desc = 'Move down' })
-map('i', '<A-e>', '<esc><cmd>m .-2<cr>==gi', { desc = 'Move up' })
-map('v', '<A-n>', ":m '>+1<cr>gv=gv", { desc = 'Move down' })
-map('v', '<A-e>', ":m '<-2<cr>gv=gv", { desc = 'Move up' })
-
 -- buffers
 map('n', '<S-h>', '<cmd>bprevious<cr>', { desc = 'Prev buffer' })
 map('n', '<S-l>', '<cmd>bnext<cr>', { desc = 'Next buffer' })

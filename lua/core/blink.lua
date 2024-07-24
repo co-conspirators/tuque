@@ -1,11 +1,11 @@
 return {
 	{
 		'saghen/blink.nvim',
+		dev = true,
 		dependencies = {
 			{ 'garymjr/nvim-snippets', opts = { create_cmp_source = false } },
 		},
 		lazy = false,
-		dev = true,
 		cmd = 'BlinkTree',
 		build = 'make',
 		keys = {

@@ -31,21 +31,6 @@ return {
 		end,
 		opts = {
 			last_session_on_startup = false,
-			projects = {
-				-- projects
-				'~/code/huggingface/*',
-				'~/code/huggingface/tokenizers/*',
-				'~/code/huggingface/spaces/*',
-				'~/code/liqwid/*',
-				'~/code/nvim/*',
-				'~/code/oz/*',
-				'~/code/personal/*',
-				'~/code/superfishial/*',
-
-				-- dotfiles
-				'/etc/nixos',
-				'~/.config/*',
-			},
 			session_manager_opts = {
 				autosave_ignore_buftypes = { 'nowrite' },
 				autosave_ignore_filetypes = { 'blink-tree' },
