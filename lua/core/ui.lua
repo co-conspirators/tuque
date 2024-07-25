@@ -350,6 +350,7 @@ return {
 	-- notifications
 	{
 	 'j-hui/fidget.nvim',
+	 event = 'VeryLazy',
 	 opts = {
      notification = { window = { normal_hl = 'Normal' } }
 	 },

@@ -3,7 +3,12 @@ return {
 		'saghen/blink.nvim',
 		dev = true,
 		dependencies = {
-			{ 'garymjr/nvim-snippets', opts = { create_cmp_source = false } },
+			{
+				'garymjr/nvim-snippets',
+				lazy = true,
+				dependencies = { 'rafamadriz/friendly-snippets' },
+				opts = { create_cmp_source = false, friendly_snippets = true },
+			},
 		},
 		lazy = false,
 		cmd = 'BlinkTree',

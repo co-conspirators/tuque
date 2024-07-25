@@ -81,6 +81,7 @@ return {
 	-- todo: shows symbols from node_modules, mitigated via telescope
 	{
 		'yioneko/nvim-vtsls',
+		event = 'VeryLazy',
 		config = function()
 			local opts = require('vtsls').lspconfig
 			opts.settings = {
@@ -116,5 +117,5 @@ return {
 	-- TODO: install with nix
 	{ 'williamboman/mason.nvim', opts = { ensure_installed = { vtsls = {} } } },
 	-- provides TSC command and diagnostics in editor
-	{ 'dmmulroy/tsc.nvim', config = true },
+	{ 'dmmulroy/tsc.nvim', event = 'VeryLazy', config = true },
 }

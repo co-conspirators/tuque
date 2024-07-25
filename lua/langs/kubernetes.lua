@@ -24,7 +24,7 @@ return {
 			{ 'nvim-lua/plenary.nvim' },
 			{ 'nvim-telescope/telescope.nvim' },
 		},
-    ft = "yaml",
+		ft = 'yaml',
 		keys = {
 			{ '<leader>fy', '<cmd>Telescope yaml_schema<CR>', desc = 'YAML Schemas' },
 		},

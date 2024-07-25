@@ -2,6 +2,7 @@ return {
 	-- recolor devicons to match theme
 	{
 		'rachartier/tiny-devicons-auto-colors.nvim',
+		event = 'UIEnter',
 		dependencies = {
 			'nvim-tree/nvim-web-devicons',
 		},
