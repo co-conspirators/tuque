@@ -1,8 +1,4 @@
-local function map(mode, lhs, rhs, opts)
-	opts = opts or { noremap = true }
-	opts.silent = opts.silent ~= false
-	vim.keymap.set(mode, lhs, rhs, opts)
-end
+local map = require('tuque.utils').map
 
 -- better up/down - allows moving to wrapped lines
 map({ 'n', 'x' }, 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
