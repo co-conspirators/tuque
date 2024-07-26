@@ -1,14 +1,22 @@
 return {
 	'HiPhish/rainbow-delimiters.nvim',
-	config = function()
+	opts = function()
 		local rainbow_delimiters = require('rainbow-delimiters')
-		require('rainbow-delimiters.setup').setup({
+		return {
 			strategy = {
 				[''] = rainbow_delimiters.strategy['global'],
 			},
 			query = {
 				[''] = 'rainbow-delimiters',
 			},
-		})
+			highlight = {
+				'RainbowOrange',
+				'RainbowPurple',
+				'RainbowBlue',
+			},
+		}
+	end,
+	config = function(_, opts)
+		require('rainbow-delimiters.setup').setup(opts)
 	end,
 }
