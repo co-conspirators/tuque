@@ -127,8 +127,6 @@ return {
 					TelescopePreviewTitle = { fg = '$blue' },
 					TelescopePromptTitle = { fg = '$blue' },
 					TelescopeResultsTitle = { fg = '$blue' },
-
-					TabbyCompletion = { bg = 'transparent', fg = '$grey' },
 				},
 			}
 		end,
