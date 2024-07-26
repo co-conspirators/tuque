@@ -63,7 +63,6 @@ return {
 			vim.keymap.set('t', '<C-j>', [[<Cmd>wincmd j<CR>]], mapOpts)
 			vim.keymap.set('t', '<C-k>', [[<Cmd>wincmd k<CR>]], mapOpts)
 			vim.keymap.set('t', '<C-l>', [[<Cmd>wincmd l<CR>]], mapOpts)
-			vim.keymap.set('t', '<C-w>', [[<C-\><C-n><C-w>]], mapOpts)
 
 			-- We can use <esc><esc> to be able to use a single <esc> in the terminal Vi mode.
 			-- vim.api.nvim_buf_set_keymap(0, "t", "<esc><esc>", [[<C-\><C-o>:ToggleTerm<CR>]], { noremap = true })
