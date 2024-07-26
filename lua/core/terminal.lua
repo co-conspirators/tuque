@@ -17,7 +17,15 @@ return {
 		'willothy/flatten.nvim',
 		lazy = false,
 		priority = 1001,
-		opts = { window = { open = 'smart' } },
+		opts = {
+			callbacks = {
+				should_block = function(argv)
+					-- adds support for kubectl edit
+					return vim.startswith(argv[#argv], '/tmp/kubectl-edit') or require('flatten').default_should_block(argv)
+				end,
+			},
+			window = { open = 'smart' },
+		},
 	},
 
 	-- terminal
