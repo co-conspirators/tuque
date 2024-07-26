@@ -1,78 +1,96 @@
 return {
-  -- folding
-  {
-    'kevinhwang91/nvim-ufo',
-		enabled = false,
-    dependencies ={ 'kevinhwang91/promise-async' },
-    opts = {
-      -- dont fold by default
-      close_fold_kinds_for_ft = { default = {} },
-      -- use treesitter for finding folds
-      provider_selector = function(_, _, _)
-          return {'treesitter', 'indent'}
-      end,
-      -- Adding number suffix of folded lines instead of the default ellipsis
-      -- https://github.com/kevinhwang91/nvim-ufo?tab=readme-ov-file#customize-fold-text
-      fold_virt_text_handler = function(virtText, lnum, endLnum, width, truncate)
-        local newVirtText = {}
-        local suffix = (' 󰁂 %d '):format(endLnum - lnum)
-        local sufWidth = vim.fn.strdisplaywidth(suffix)
-        local targetWidth = width - sufWidth
-        local curWidth = 0
-        for _, chunk in ipairs(virtText) do
-          local chunkText = chunk[1]
-          local chunkWidth = vim.fn.strdisplaywidth(chunkText)
-          if targetWidth > curWidth + chunkWidth then
-            table.insert(newVirtText, chunk)
-          else
-            chunkText = truncate(chunkText, targetWidth - curWidth)
-            local hlGroup = chunk[2]
-            table.insert(newVirtText, {chunkText, hlGroup})
-            chunkWidth = vim.fn.strdisplaywidth(chunkText)
-            -- str width returned from truncate() may less than 2nd argument, need padding
-            if curWidth + chunkWidth < targetWidth then
-                suffix = suffix .. (' '):rep(targetWidth - curWidth - chunkWidth)
-            end
-            break
-          end
-          curWidth = curWidth + chunkWidth
-        end
-        table.insert(newVirtText, {suffix, 'MoreMsg'})
-        return newVirtText
-      end
-    }
-  },
-
-	-- top bar
 	{
-		'ramilito/winbar.nvim',
-    commit = "4f2edd51e12a94be4ec3157ccd60b66d11b1933c",
-		dependencies = { 'rachartier/tiny-devicons-auto-colors.nvim' },
+		'b0o/incline.nvim',
+		event = 'VeryLazy',
 		opts = {
-			icons = true,
-			diagnostics = true,
-			buf_modified = true,
-      buf_modified_symbol = "●",
-      filetype_exclude = {
-        "blink-tree",
+			window = {
+				padding = 0,
+				margin = { horizontal = 0 },
+			},
+			render = function(props)
+				local devicons = require('nvim-web-devicons')
 
-        -- defaults
-        "help",
-        "startify",
-        "dashboard",
-        "packer",
-        "neo-tree",
-        "neogitstatus",
-        "NvimTree",
-        "Trouble",
-        "alpha",
-        "lir",
-        "Outline",
-        "spectre_panel",
-        "toggleterm",
-        "TelescopePrompt",
-        "prompt",
-      },
+				-- Filename
+				local buf_path = vim.api.nvim_buf_get_name(props.buf)
+				local dirname = vim.fn.fnamemodify(buf_path, ':~:.:h')
+				local dirname_component = { dirname, group = 'Comment' }
+
+				local filename = vim.fn.fnamemodify(buf_path, ':t')
+				if filename == '' then
+					filename = '[No Name]'
+				end
+				local diagnostic_level = nil
+				for _, diagnostic in ipairs(vim.diagnostic.get(props.buf)) do
+					diagnostic_level = math.min(diagnostic_level or 999, diagnostic.severity)
+				end
+				local filename_hl = diagnostic_level == vim.diagnostic.severity.HINT and 'DiagnosticHint'
+					or diagnostic_level == vim.diagnostic.severity.INFO and 'DiagnosticInfo'
+					or diagnostic_level == vim.diagnostic.severity.WARN and 'DiagnosticWarn'
+					or diagnostic_level == vim.diagnostic.severity.ERROR and 'DiagnosticError'
+					or 'Normal'
+				local filename_component = { filename, group = filename_hl }
+
+				-- Modified icon
+				local modified = vim.bo[props.buf].modified
+				local modified_component = modified and { ' ● ', group = 'BufferCurrentMod' } or ''
+
+				local ft_icon, ft_color = devicons.get_icon_color(filename)
+				local icon_component = ft_icon and { ' ', ft_icon, ' ', guifg = ft_color } or ''
+
+				return {
+					modified_component,
+					icon_component,
+					' ',
+					filename_component,
+					' ',
+					dirname_component,
+					' ',
+				}
+			end,
+		},
+	},
+
+	-- folding
+	{
+		enabled = false,
+		'kevinhwang91/nvim-ufo',
+		dependencies = { 'kevinhwang91/promise-async' },
+		opts = {
+			-- dont fold by default
+			close_fold_kinds_for_ft = { default = {} },
+			-- use treesitter for finding folds
+			provider_selector = function(_, _, _)
+				return { 'treesitter', 'indent' }
+			end,
+			-- Adding number suffix of folded lines instead of the default ellipsis
+			-- https://github.com/kevinhwang91/nvim-ufo?tab=readme-ov-file#customize-fold-text
+			fold_virt_text_handler = function(virtText, lnum, endLnum, width, truncate)
+				local newVirtText = {}
+				local suffix = (' 󰁂 %d '):format(endLnum - lnum)
+				local sufWidth = vim.fn.strdisplaywidth(suffix)
+				local targetWidth = width - sufWidth
+				local curWidth = 0
+				for _, chunk in ipairs(virtText) do
+					local chunkText = chunk[1]
+					local chunkWidth = vim.fn.strdisplaywidth(chunkText)
+					if targetWidth > curWidth + chunkWidth then
+						table.insert(newVirtText, chunk)
+					else
+						chunkText = truncate(chunkText, targetWidth - curWidth)
+						local hlGroup = chunk[2]
+						table.insert(newVirtText, { chunkText, hlGroup })
+						chunkWidth = vim.fn.strdisplaywidth(chunkText)
+						-- str width returned from truncate() may less than 2nd argument, need padding
+						if curWidth + chunkWidth < targetWidth then
+							suffix = suffix .. (' '):rep(targetWidth - curWidth - chunkWidth)
+						end
+						break
+					end
+					curWidth = curWidth + chunkWidth
+				end
+				table.insert(newVirtText, { suffix, 'MoreMsg' })
+				return newVirtText
+			end,
 		},
 	},
 
@@ -104,8 +122,8 @@ return {
 				},
 			},
 			left = {
-			  { ft = 'blink-tree' },
-        { ft = 'neo-tree' },
+				{ ft = 'blink-tree' },
+				{ ft = 'neo-tree' },
 			},
 			right = {
 				{
@@ -117,218 +135,6 @@ return {
 				},
 			},
 		},
-	},
-
-	-- experimental UI
-	{
-    enabled = false,
-		'folke/noice.nvim',
-		dependencies = { 'MunifTanjim/nui.nvim', 'j-hui/fidget.nvim' },
-		opts = {
-			presets = {
-				inc_rename = true, -- enables an input dialog for inc-rename.nvim
-			},
-			messages = {
-        enabled = true,
-        -- view = 'fidget',
-        -- view_warn = 'fidget',
-        -- view_error = 'fidget',
-      },
-			notify = { enabled = false, view = 'fidget' },
-			popupmenu = { enabled = false },
-			lsp = {
-				progress = { enabled = false, view = 'fidget' },
-				-- provides signature help while typing
-				signature = { enabled = true },
-			},
-		},
-		config = function(_, opts)
-			local require = require('noice.util.lazy')
-
-			local Util = require('noice.util')
-			local View = require('noice.view')
-
-			---@class NoiceFidgetOptions
-			---@field timeout integer
-			---@field reverse? boolean
-			local defaults = { timeout = 5000 }
-
-			---@class FidgetView: NoiceView
-			---@field active table<number, NoiceMessage>
-			---@field super NoiceView
-			---@field lsp_handles table<number, ProgressHandle>
-			---@field timers table<number, uv_timer_t>
-			---@diagnostic disable-next-line: undefined-field
-			local FidgetView = View:extend('MiniView')
-
-			function FidgetView:init(opts)
-				FidgetView.super.init(self, opts)
-				self.active = {}
-				self.timers = {}
-				self._instance = 'view'
-				self.lsp_handles = {}
-			end
-
-			function FidgetView:update_options()
-				self._opts = vim.tbl_deep_extend('force', defaults, self._opts)
-			end
-
-			---@param message NoiceMessage
-			function FidgetView:can_hide(message)
-				if message.opts.keep and message.opts.keep() then
-					return false
-				end
-				return not Util.is_blocking()
-			end
-
-			function FidgetView:autohide(id)
-				if not id then
-					return
-				end
-				if not self.timers[id] then
-					self.timers[id] = vim.loop.new_timer()
-				end
-				self.timers[id]:start(self._opts.timeout, 0, function()
-					if not self.active[id] then
-						return
-					end
-					if not self:can_hide(self.active[id]) then
-						return self:autohide(id)
-					end
-					self.active[id] = nil
-					self.timers[id] = nil
-					vim.schedule(function()
-						self:update()
-					end)
-				end)
-			end
-
-			function FidgetView:show()
-				for _, message in ipairs(self._messages) do
-					-- we already have debug info,
-					-- so make sure we dont regen it in the child view
-					message._debug = true
-					self.active[message.id] = message
-					self:autohide(message.id)
-				end
-				self:clear()
-				self:update()
-			end
-
-			function FidgetView:dismiss()
-				self:clear()
-				self.active = {}
-				self:update()
-			end
-
-			function FidgetView:update()
-				---@type NoiceMessage[]
-				local active = vim.tbl_values(self.active)
-        -- sort by id
-				table.sort(
-					active,
-					---@param a NoiceMessage
-					---@param b NoiceMessage
-					function(a, b)
-						local ret = a.id < b.id
-						if self._opts.reverse then
-							return not ret
-						end
-						return ret
-					end
-				)
-
-        self:_handle_lsp(active)
-        self:_handle_messages(active)
-        self:_handle_notify(active)
-      end
-
-      ---@param messages NoiceMessage[]
-      function FidgetView:_handle_lsp(messages)
-        local fidget = require('fidget')
-
-        ---@type NoiceMessage[]
-        local lsp_messages = vim.tbl_filter(function(message)
-          return message.event == 'lsp'
-        end, messages)
-
-				for _, message in pairs(lsp_messages) do
-					if self.lsp_handles[message.id] then
-						self.lsp_handles[message.id]:report({
-							message = message:content(),
-						})
-					else
-						self.lsp_handles[message.id] = fidget.progress.handle.create({
-							title = message.level or 'info',
-							message = message:content(),
-							level = message.level,
-							lsp_client = {
-								name = self._view_opts.title or 'noice',
-							},
-						})
-					end
-				end
-
-        -- finish lsp handles that are no longer active
-				for id, handle in pairs(self.lsp_handles) do
-          for _, message in pairs(lsp_messages) do
-            if message.id == id then
-              goto continue
-            end
-          end
-
-          handle:finish()
-          self.lsp_handles[id] = nil
-
-          ::continue::
-				end
-      end
-
-      ---@param messages NoiceMessage[]
-      function FidgetView:_handle_messages(messages)
-        local notify = require('fidget.notification').notify
-
-        local events = require('noice.ui.msg').events
-
-        ---@type NoiceMessage[]
-        local msgs = vim.tbl_filter(function(message)
-          for _, event in pairs(events) do
-            if message.event == event then
-              return true
-            end
-          end
-          return false
-        end, messages)
-
-        for _, message in pairs(msgs) do
-          notify(message:content(), message.level)
-        end
-      end
-
-      ---@param messages NoiceMessage[]
-      function FidgetView:_handle_notify(messages)
-        local notify = require('fidget.notification').notify
-
-        ---@type NoiceMessage[]
-        local notifications = vim.tbl_filter(function(message)
-          return message.event == 'notify'
-        end, messages)
-
-        for _, message in pairs(notifications) do
-          notify(message:content(), message.level)
-        end
-      end
-
-			function FidgetView:hide()
-				for _, handle in pairs(self.lsp_handles) do
-					handle:finish()
-				end
-			end
-
-			package.loaded['noice.view.backend.fidget'] = FidgetView
-
-			require('noice').setup(opts)
-		end,
 	},
 
 	-- live feedback for rename
@@ -349,10 +155,18 @@ return {
 
 	-- notifications
 	{
-	 'j-hui/fidget.nvim',
-	 event = 'VeryLazy',
-	 opts = {
-     notification = { window = { normal_hl = 'Normal' } }
-	 },
+		'j-hui/fidget.nvim',
+		event = 'VeryLazy',
+		opts = {
+			notification = { window = { normal_hl = 'Normal' } },
+			integration = {
+				['nvim-tree'] = {
+					enable = false,
+				},
+				['xcodebuild-nvim'] = {
+					enable = false,
+				},
+			},
+		},
 	},
 }
