@@ -60,8 +60,8 @@ vim.api.nvim_create_autocmd('BufWritePre', {
 
 return {
 	{
-		priority = 1000,
 		'neovim/nvim-lspconfig',
+		event = 'BufRead',
 		dependencies = { 'creativenull/efmls-configs-nvim' },
 		keys = {
 			{

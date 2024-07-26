@@ -16,7 +16,7 @@ return {
 		end,
 	},
 	-- LSP and schemas for autocompletion
-	{ 'towolf/vim-helm', event = 'VeryLazy' },
+	{ 'towolf/vim-helm', ft = 'helm' },
 	{
 		'someone-stole-my-name/yaml-companion.nvim',
 		dependencies = {

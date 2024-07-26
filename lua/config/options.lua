@@ -25,6 +25,7 @@ opt.shiftwidth = 2 -- Size of an indent
 opt.showmode = false -- We have a status line and modicator
 opt.signcolumn = 'yes' -- Always show the signcolumn, otherwise it would shift the text each time
 opt.ignorecase = true -- Ignore case when searching, unless there's a capital with flash.nvim
+opt.scrolloff = 4 -- Minimal number of screen lines to keep above and below the cursor
 opt.smartcase = true -- Don't ignore case with capitals
 opt.smartindent = true -- Insert indents automatically
 opt.spelllang = { 'en' }
@@ -35,6 +36,10 @@ opt.undolevels = 10000
 opt.updatetime = 200 -- Save swap file and trigger CursorHold
 opt.virtualedit = 'block' -- Allow cursor to move where there is no text in visual block mode
 opt.wrap = true -- Line wrapping
+
+if os.getenv('NVIM_DEV') ~= nil then
+	opt.swapfile = false
+end
 
 -- folds
 vim.o.foldcolumn = '0'
@@ -64,6 +69,7 @@ opt.fillchars = {
 	diff = '╱',
 	eob = ' ',
 
+	-- controls the border around windows
 	vert = ' ',
 	horiz = ' ',
 	horizup = ' ',

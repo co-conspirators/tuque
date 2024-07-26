@@ -36,7 +36,8 @@ require('lazy').setup({
 	},
 	-- don't reload when config changes because it doesn't really work anyway?
 	change_detection = {
-		enabled = false,
+		enabled = true,
+		notify = false,
 	},
 	-- any plugins with dev = true will attempt to load from this local path
 	dev = {

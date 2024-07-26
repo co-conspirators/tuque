@@ -14,6 +14,22 @@ return {
 			{ '<leader>fs', '<cmd>Telescope neovim-project history<cr>', desc = 'Sessions' },
 		},
 		init = function()
+			-- todo: open blink tree if it was previously open
+			local sessions_group = vim.api.nvim_create_augroup('TuqueSessions', {})
+			-- open blink tree (disabled in dev environment)
+			if os.getenv('NVIM_DEV') == nil then
+				vim.api.nvim_create_autocmd({ 'User' }, {
+					pattern = 'SessionLoadPost',
+					group = sessions_group,
+					command = 'BlinkTree open silent',
+				})
+			end
+			-- vim.api.nvim_create_autocmd({ 'User' }, {
+			-- 	pattern = 'SessionSavePre',
+			-- 	group = sessions_group,
+			-- 	command = 'BlinkTree close',
+			-- })
+
 			-- The dashboard returns the full path of the project but the
 			-- NeovimProjectLoad command expects the path to be the same as the one in the projects list
 			-- so we need to replace the home directory with ~

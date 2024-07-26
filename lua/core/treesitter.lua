@@ -1,7 +1,7 @@
 return {
 	{
 		'nvim-treesitter/nvim-treesitter',
-		lazy = false,
+		event = 'BufRead',
 		---@type TSConfig
 		---@diagnostic disable-next-line: missing-fields
 		opts = {

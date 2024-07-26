@@ -86,6 +86,11 @@ return {
 
 					DashboardHeader = { fg = '$blue' },
 
+					InclineNormal = { bg = '$bg1' },
+					InclineNormalNC = { bg = '$bg1' },
+
+					EdgyNormal = { bg = '$bg_d' },
+
 					BlinkTreeNormal = { bg = '$bg_d' },
 					BlinkTreeNormalNC = { bg = '$bg_d' },
 					BlinkTreeIndent = { fg = '$bg3' },
