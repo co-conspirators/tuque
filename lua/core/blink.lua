@@ -1,28 +1,15 @@
---- @param mode string|string[] modes to map
---- @param lhs string lhs
---- @param rhs string rhs
-local function map_blink_cmp(mode, lhs, rhs)
-	return {
-		lhs,
-		function()
-			local did_run = require('blink.cmp')[rhs]()
-			if not did_run then
-				return lhs
-			end
-		end,
-		mode = mode,
-		expr = true,
-		noremap = true,
-		silent = true,
-		replace_keycodes = true,
-	}
-end
-
 return {
 	{
 		'saghen/blink.nvim',
+		build = 'cargo build --release',
 		dev = true,
-		dependencies = {},
+		dependencies = {
+			{
+				'garymjr/nvim-snippets',
+				dependencies = { 'rafamadriz/friendly-snippets' },
+				opts = { create_cmp_source = false, friendly_snippets = true },
+			},
+		},
 		lazy = false,
 		cmd = 'BlinkTree',
 		keys = {
@@ -44,41 +31,160 @@ return {
 				desc = 'Toggle , at eol',
 			},
 
+			-- select
+			{
+				'<leader>mb',
+				function()
+					require('blink.select').show('buffers')
+				end,
+				desc = 'Select buffer',
+			},
+			{
+				'<leader>md',
+				function()
+					require('blink.select').show('diagnostics')
+				end,
+				desc = 'Select diagnostic',
+			},
+			{
+				'<leader>mc',
+				function()
+					require('blink.select').show('recent-commands')
+				end,
+				desc = 'Select recent commands',
+			},
+			{
+				'<leader>ms',
+				function()
+					require('blink.select').show('symbols')
+				end,
+				desc = 'Select symbol',
+			},
+			{
+				'<leader>my',
+				function()
+					require('blink.select').show('yank-history')
+				end,
+				desc = 'Select yank history',
+			},
+			{
+				'<leader>m/',
+				function()
+					require('blink.select').show('recent-searches')
+				end,
+				desc = 'Select search',
+			},
+			{
+				'<leader>ma',
+				function()
+					require('blink.select').show('code-actions')
+				end,
+				desc = 'Select code action',
+			},
+			{
+				'<leader>mo',
+				function()
+					require('blink.select').show('smart-open')
+				end,
+				desc = 'Select code action',
+			},
+
 			-- tree
 			{ '<C-e>', '<cmd>BlinkTree reveal<cr>', desc = 'Reveal current file in tree' },
 			{ '<leader>E', '<cmd>BlinkTree toggle<cr>', desc = 'Reveal current file in tree' },
 			{ '<leader>e', '<cmd>BlinkTree toggle-focus<cr>', desc = 'Toggle file tree focus' },
 		},
-		opts = {
-			chartoggle = { enabled = true },
-			cmp = { enabled = false },
-			indent = { enabled = true },
-			tree = { enabled = true },
-		},
-	},
+		opts = function()
+			local clue = require('blink.clue')
+			return {
+				chartoggle = { enabled = true },
+				clue = {
+					enabled = true,
+					triggers = {
+						-- Leader triggers
+						{ mode = 'n', keys = '<Leader>' },
+						{ mode = 'x', keys = '<Leader>' },
 
-	{
-		'saghen/blink.cmp',
-		event = 'InsertEnter',
-		dependencies = {
-			{
-				'garymjr/nvim-snippets',
-				dependencies = { 'rafamadriz/friendly-snippets' },
-				opts = { create_cmp_source = false, friendly_snippets = true },
-			},
-		},
-		dev = true,
-		build = 'cargo build --release',
-		keys = {
-			map_blink_cmp('i', '<C-space>', 'show'),
-			map_blink_cmp('i', '<Tab>', 'accept'),
-			map_blink_cmp('i', '<Up>', 'select_prev'),
-			map_blink_cmp('i', '<Down>', 'select_next'),
-			map_blink_cmp('i', '<C-k>', 'select_prev'),
-			map_blink_cmp('i', '<C-j>', 'select_next'),
-		},
-		config = function()
-			require('blink.cmp').setup({})
+						-- Built-in completion
+						{ mode = 'i', keys = '<C-x>' },
+
+						-- `g` key
+						{ mode = 'n', keys = 'g' },
+						{ mode = 'x', keys = 'g' },
+
+						-- Marks
+						{ mode = 'n', keys = "'" },
+						{ mode = 'n', keys = '`' },
+						{ mode = 'x', keys = "'" },
+						{ mode = 'x', keys = '`' },
+
+						-- Registers
+						{ mode = 'n', keys = '"' },
+						{ mode = 'x', keys = '"' },
+						{ mode = 'i', keys = '<C-r>' },
+						{ mode = 'c', keys = '<C-r>' },
+
+						-- Window commands
+						{ mode = 'n', keys = '<C-w>' },
+
+						-- `z` key
+						{ mode = 'n', keys = 'z' },
+						{ mode = 'x', keys = 'z' },
+					},
+					clues = {
+						{ mode = 'n', keys = '<leader>b', desc = 'Buffers' },
+						{ mode = 'n', keys = '<leader>c', desc = 'Coding' },
+						{ mode = 'n', keys = '<leader>d', desc = 'Debug' },
+						{ mode = 'n', keys = '<leader>e', desc = 'Errors' },
+						{ mode = 'n', keys = '<leader>q', desc = 'Quit' },
+						{ mode = 'n', keys = '<leader>s', desc = 'Search' },
+						{ mode = 'n', keys = '<leader>sg', desc = 'Git' },
+						{ mode = 'n', keys = '<leader>sgd', desc = 'Diff' },
+						{ mode = 'n', keys = '<leader>f', desc = 'Files' },
+						{ mode = 'n', keys = '<leader>g', desc = 'Git' },
+						{ mode = 'n', keys = '<leader>gy', desc = 'Copy URL' },
+						{ mode = 'n', keys = '<leader>u', desc = 'Options' },
+						{ mode = 'n', keys = '<leader>w', desc = 'Windows' },
+						{ mode = 'n', keys = '<leader>x', desc = 'Quickfix' },
+
+						clue.gen_clues.builtin_completion(),
+						clue.gen_clues.g(),
+						clue.gen_clues.marks(),
+						clue.gen_clues.registers(),
+						clue.gen_clues.windows(),
+						clue.gen_clues.z(),
+					},
+					window = {
+						delay = 200,
+						config = { border = 'single', width = 40 },
+					},
+				},
+				cmp = { enabled = true },
+				select = {
+					enabled = true,
+					mapping = {
+						selection = { 'm', 'n', 'e', 'i', 'a', 'r', 's', 't' },
+					},
+				},
+				indent = {
+					enabled = true,
+					scope = {
+						highlights = {
+							'RainbowOrange',
+							'RainbowPurple',
+							'RainbowBlue',
+						},
+						underline = {
+							highlights = {
+								'RainbowOrangeUnderline',
+								'RainbowPurpleUnderline',
+								'RainbowBlueUnderline',
+							},
+						},
+					},
+				},
+				tree = { enabled = true },
+			}
 		end,
 	},
 }

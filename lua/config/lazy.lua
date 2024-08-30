@@ -12,13 +12,14 @@ require('lazy').setup({
 	spec = {
 		{ import = 'core' },
 		{ import = 'langs' },
+		{ import = 'custom' },
 		{ import = 'profile' },
 	},
 	defaults = {
 		lazy = false, -- whether to lazy load all plugins by default
 		version = false, -- always use the latest git commit
 	},
-	checker = { enabled = true, frequency = 60 * 60 * 24 * 7 }, -- automatically check for plugin updates every week
+	checker = { enabled = false, frequency = 60 * 60 * 24 * 7 }, -- automatically check for plugin updates every week
 	performance = {
 		rtp = {
 			-- disable some rtp plugins
@@ -36,8 +37,8 @@ require('lazy').setup({
 	},
 	-- don't reload when config changes because it doesn't really work anyway?
 	change_detection = {
-		enabled = true,
-		notify = false,
+		enabled = false,
+		-- notify = false,
 	},
 	-- any plugins with dev = true will attempt to load from this local path
 	dev = {

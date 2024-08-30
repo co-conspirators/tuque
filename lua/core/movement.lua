@@ -13,6 +13,31 @@ return {
     },
 	},
 
+	-- skip punctuation, subwords
+	{
+		'chrisgrieser/nvim-spider',
+		keys = {
+			{
+				'w',
+				"<cmd>lua require('spider').motion('w')<CR>",
+				mode = { 'n', 'o', 'x' },
+			},
+			{
+				'e',
+				"<cmd>lua require('spider').motion('e')<CR>",
+				mode = { 'n', 'o', 'x' },
+			},
+			{
+				'b',
+				"<cmd>lua require('spider').motion('b')<CR>",
+				mode = { 'n', 'o', 'x' },
+			},
+		},
+		opts = {
+			subwordMovement = true,
+		},
+	},
+
 	-- jump by edit locations
 	{
 		'bloznelis/before.nvim',
@@ -41,27 +66,4 @@ return {
 		},
 		config = true,
 	},
-
-	-- overengineered harpoon
-	-- TODO: come back to this
-	-- {
-	-- 	enabled = false,
-	-- 	'dharmx/track.nvim',
-	-- 	keys = {
-	-- 		{ '<Enter><Enter>', '<cmd>Track<cr>', desc = 'Track' },
-	-- 		{ '<Enter>b', '<cmd>Track branches<cr>', desc = 'Track branches' },
-	-- 		{ '<Enter>m', '<cmd>Mark<cr>', desc = 'Mark' },
-	-- 		{ '<Enter>M', '<cmd>Unmark<cr>', desc = 'Unmark' },
-	-- 		{ '<leader>1', '<cmd>OpenMark 1<cr>', desc = 'OpenMark 1' },
-	-- 		{ '<leader>2', '<cmd>OpenMark 2<cr>', desc = 'OpenMark 2' },
-	-- 		{ '<leader>3', '<cmd>OpenMark 3<cr>', desc = 'OpenMark 3' },
-	-- 		{ '<leader>4', '<cmd>OpenMark 4<cr>', desc = 'OpenMark 4' },
-	-- 		{ '<leader>5', '<cmd>OpenMark 5<cr>', desc = 'OpenMark 5' },
-	-- 		{ '<leader>6', '<cmd>OpenMark 6<cr>', desc = 'OpenMark 6' },
-	-- 		{ '<leader>7', '<cmd>OpenMark 7<cr>', desc = 'OpenMark 7' },
-	-- 		{ '<leader>8', '<cmd>OpenMark 8<cr>', desc = 'OpenMark 8' },
-	-- 		{ '<leader>9', '<cmd>OpenMark 9<cr>', desc = 'OpenMark 9' },
-	-- 	},
-	-- 	opts = {},
-	-- },
 }

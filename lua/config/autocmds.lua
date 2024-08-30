@@ -48,6 +48,7 @@ autocmd('FileType', {
 		'neotest-output-panel',
 		'toggleterm',
 		'neo-tree',
+		'gitsigns-blame',
 	},
 	callback = function(event)
 		vim.bo[event.buf].buflisted = false

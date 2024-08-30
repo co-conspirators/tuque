@@ -8,6 +8,9 @@ local g = vim.g
 g.mapleader = ' '
 g.maplocalleader = '\\'
 
+-- todo: maybe better perf
+-- vim.o.shell = '/bin/bash'
+
 opt.completeopt = 'menu,menuone,preview'
 opt.clipboard = ''
 
@@ -39,6 +42,7 @@ opt.wrap = true -- Line wrapping
 
 if os.getenv('NVIM_DEV') ~= nil then
 	opt.swapfile = false
+	opt.shada = ''
 end
 
 -- folds
@@ -96,9 +100,9 @@ if g.neovide then
 	-- g.neovide_font_edging = 'subpixelantialias'
 end
 
+-- hack: query caching not working normally for some reason
 local query_parse = vim.treesitter.query.parse
 local cache = {}
-
 vim.treesitter.query.parse = function(lang, query)
 	local hash = lang .. '-' .. vim.fn.sha256(query)
 	if cache[hash] then

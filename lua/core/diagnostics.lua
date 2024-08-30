@@ -8,18 +8,45 @@ vim.fn.sign_define('DiagnosticSignInfo', { texthl = 'DiagnosticSignInfo', text =
 return {
 	-- UI for viewing all diagnostics
 	{
-		enabled = false,
 		'folke/trouble.nvim',
 		dependencies = { 'rachartier/tiny-devicons-auto-colors.nvim' },
 		keys = {
-			{ '<leader>xx', '<cmd>Trouble<cr>', desc = 'Diagnostics' },
-			{ '<leader>xw', '<cmd>Trouble workspace_diagnostics<cr>', desc = 'Workspace Diagnostics' },
-			{ '<leader>xd', '<cmd>Trouble document_diagnostics<cr>', desc = 'Document Diagnostics' },
-			{ '<leader>xq', '<cmd>Trouble quickfix<cr>', desc = 'Quickfix' },
-			{ '<leader>xl', '<cmd>Trouble loclist<cr>', desc = 'Location List' },
-			{ 'gR', '<cmd>Trouble lsp_references<cr>', desc = 'LSP References' },
+			{
+				'<leader>xx',
+				'<cmd>Trouble diagnostics open<cr>',
+				desc = 'Diagnostics',
+			},
+			{
+				'<leader>xX',
+				'<cmd>Trouble diagnostics open filter.buf=0<cr>',
+				desc = 'Buffer Diagnostics',
+			},
+			{
+				'<leader>xs',
+				'<cmd>Trouble symbols open focus=false<cr>',
+				desc = 'Symbols',
+			},
+			{
+				'<leader>xl',
+				'<cmd>Trouble lsp open focus=false win.position=right<cr>',
+				desc = 'LSP Definitions / references / ...',
+			},
+			{
+				'<leader>xL',
+				'<cmd>Trouble loclist open<cr>',
+				desc = 'Location List',
+			},
+			{
+				'<leader>xQ',
+				'<cmd>Trouble qflist open<cr>',
+				desc = 'Quickfix List',
+			},
 		},
 		opts = {
+			focus = true,
+			throttle = {
+				preview = { debounce = false },
+			},
 			action_keys = {
 				previous = { 'k', '<Up' },
 				next = { 'j', '<Down>' },
@@ -28,10 +55,10 @@ return {
 	},
 
 	-- TODO: remove the lowercase keywords since it's non-standard
-	-- TODO: rewrite this myself
 	{
 		'folke/todo-comments.nvim',
 		opts = {
+			signs = false, -- disable signs in sign column
 			keywords = {
 				FIX = {
 					icon = ' ',
@@ -56,41 +83,11 @@ return {
 	},
 
 	-- Show diagnostics in the top right instead of inline
-	-- TODO: gets in the way sometimes, consolidate with fidget and noice?
+	-- TODO: gets in the way sometimes
 	{
 		enabled = false,
 		'dgagn/diagflow.nvim',
 		event = 'LspAttach',
 		opts = {},
-	},
-	-- OR use verbose diagnostics
-	{
-		enabled = false,
-		'https://git.sr.ht/~whynothugo/lsp_lines.nvim',
-		keys = {
-			{
-				'<leader>ud',
-				function()
-					vim.g.lsp_lines_active = not vim.g.lsp_lines_active
-					vim.diagnostic.config({
-						virtual_lines = vim.g.lsp_lines_active,
-					})
-					require('diagflow').toggle()
-				end,
-				desc = 'Toggle Verbose Diagnostics',
-			},
-		},
-		init = function()
-			vim.g.lsp_lines_active = false
-			vim.diagnostic.config({
-				-- disable the "E", "H" in the sign column (left of line numbers)
-				signs = false,
-				virtual_lines = vim.g.lsp_lines_active,
-			})
-			-- avoid showing lsp lines on lazy.nvim popup
-			-- https://github.com/folke/lazy.nvim/issues/620
-			vim.diagnostic.config({ virtual_lines = false }, require('lazy.core.config').ns)
-		end,
-		config = true,
 	},
 }

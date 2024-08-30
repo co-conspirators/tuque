@@ -16,11 +16,15 @@ return {
 		'linrongbin16/gitlinker.nvim',
 		cmd = 'GitLink',
 		keys = {
-			{ '<leader>go', '<cmd>GitLink! default_branch<cr>', mode = { 'n', 'v' }, desc = 'Open in browser' },
-			{ '<leader>gO', '<cmd>GitLink!', mode = { 'n', 'v' }, desc = 'Open file in browser' },
-			{ '<leader>gyy', '<cmd>GitLink<cr>', mode = { 'n', 'v' }, desc = 'Copy file url' },
+			{ '<leader>gyf', '<cmd>GitLink<cr>', mode = { 'n', 'v' }, desc = 'Copy file url' },
+			{ '<leader>gof', '<cmd>GitLink!', mode = { 'n', 'v' }, desc = 'Open file in browser' },
+
+			{ '<leader>gob', '<cmd>GitLink current_branch<cr>', mode = { 'n', 'v' }, desc = 'Open branch in browser' },
 			{ '<leader>gyb', '<cmd>GitLink current_branch<cr>', mode = { 'n', 'v' }, desc = 'Copy branch url' },
+
+			{ '<leader>gor', '<cmd>GitLink! default_branch<cr>', mode = { 'n', 'v' }, desc = 'Open repo in browser' },
 			{ '<leader>gyr', '<cmd>GitLink default_branch<cr>', mode = { 'n', 'v' }, desc = 'Copy repo url' },
+
 			{ '<leader>gB', '<cmd>GitLink! blame<cr>', mode = { 'n', 'v' }, desc = 'Open blame in browser' },
 		},
 		opts = {},
@@ -121,7 +125,7 @@ return {
 			'sindrets/diffview.nvim',
 		},
 		keys = {
-			-- NOTE: use `b o` in neogit to open issue
+			-- NOTE: use `b o` in neogit to open PR
 			{ '<leader>gg', '<cmd>Neogit kind=replace<cr>', desc = 'Open Neogit' },
 		},
 		opts = {

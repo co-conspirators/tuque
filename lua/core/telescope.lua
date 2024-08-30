@@ -1,29 +1,10 @@
 return {
 	{
-		'nvim-telescope/telescope-fzy-native.nvim',
-		dependencies = {
-			{
-				'romgrk/fzy-lua-native',
-				build = {
-					'make',
-					-- otherwise lazy.nvim will complain on checkout
-					-- https://github.com/romgrk/fzy-lua-native/issues/23
-					'git update-index --assume-unchanged static/libfzy-*.so',
-				},
-			},
-			'nvim-telescope/telescope.nvim',
-		},
-		config = function()
-			require('telescope').load_extension('fzy_native')
-		end,
-	},
-	{
 		'nvim-telescope/telescope.nvim',
-		dependencies = { 'nvim-lua/plenary.nvim' },
+		dependencies = { 'nvim-lua/plenary.nvim', 'nvim-telescope/telescope-fzy-native.nvim' },
 		keys = {
 			{ '<leader>.', '<cmd>Telescope buffers sort_mru=true sort_lastused=true<cr>', desc = 'Buffers' },
 			{ '<leader>:', '<cmd>Telescope command_history<cr>', desc = 'Command History' },
-			{ '<leader>/', '<cmd>Telescope live_grep<cr>', desc = 'Grep' },
 			{ "<leader>'", '<cmd>Telescope registers<cr>', desc = 'Registers' },
 			{ '<leader>y', '<cmd>Telescope lsp_document_symbols<cr>', desc = 'Goto Symbol' },
 			{ '<leader>r', '<cmd>Telescope resume<cr>', desc = 'Resume last search' },
@@ -51,6 +32,7 @@ return {
 			{ '<leader>sC', '<cmd>Telescope commands<cr>', desc = 'Commands' },
 			{ '<leader>sd', '<cmd>Telescope diagnostics bufnr=0<cr>', desc = 'Document diagnostics' },
 			{ '<leader>sD', '<cmd>Telescope diagnostics<cr>', desc = 'Workspace diagnostics' },
+			{ '<leader>sr', '<cmd>Telescope live_grep<cr>', desc = 'Grep' },
 			{ '<leader>sh', '<cmd>Telescope help_tags<cr>', desc = 'Help Pages' },
 			{ '<leader>sH', '<cmd>Telescope highlights<cr>', desc = 'Search Highlight Groups' },
 			{ '<leader>sk', '<cmd>Telescope keymaps<cr>', desc = 'Key Maps' },
@@ -123,14 +105,38 @@ return {
 		end,
 	},
 
+	-- smarter fuzzy search
+	{
+		'nvim-telescope/telescope-fzy-native.nvim',
+		lazy = true,
+		dependencies = {
+			{
+				'romgrk/fzy-lua-native',
+				build = {
+					'make',
+					-- otherwise lazy.nvim will complain on checkout
+					-- https://github.com/romgrk/fzy-lua-native/issues/23
+					'git update-index --assume-unchanged static/libfzy-*.so',
+				},
+			},
+			'nvim-telescope/telescope.nvim',
+		},
+		config = function()
+			vim.schedule(function()
+				require('telescope').load_extension('fzy_native')
+			end)
+		end,
+	},
+
 	-- smarter file opening
 	{
+		dev = true,
 		'danielfalk/smart-open.nvim',
 		branch = '0.2.x',
 		dependencies = { 'kkharji/sqlite.lua' },
 		keys = {
 			{
-				'<leader><enter>',
+				'<space><enter>',
 				function()
 					require('telescope').extensions.smart_open.smart_open({ cwd_only = true })
 				end,

@@ -10,9 +10,8 @@ return {
 		opts = { use_default_keymap = false, max_join_length = 1000 },
 	},
 
-	-- support comment strings for different treesitter node types (i.e. JSX)
-	-- todo: too slow because uses treesitter
-	-- { 'folke/ts-comments.nvim', opts = {} },
+	-- support comment strings for different treesitter node types (i.e. JSX) and fixes terraform
+	{ 'folke/ts-comments.nvim', event = 'VeryLazy', opts = {} },
 
 	-- find and replace across workspace
 	{
@@ -39,10 +38,25 @@ return {
 			},
 		},
 	},
+	-- find and replace for file with UI
+	{
+		'chrisgrieser/nvim-rip-substitute',
+		cmd = 'RipSubstitute',
+		keys = {
+			{
+				'<leader>h',
+				function()
+					require('rip-substitute').sub()
+				end,
+				mode = { 'n', 'x' },
+				desc = 'Find and Replace (File)',
+			},
+		},
+	},
 
 	-- todo: fork to support limitting filetypes via lua or contribute
 	{ 'echasnovski/mini.cursorword', version = false, opts = {} },
-	{ 'echasnovski/mini.pairs', version = false, opts = {} },
+	{ 'echasnovski/mini.pairs', event = 'InsertEnter', version = false, opts = {} },
 	{
 		'echasnovski/mini.surround',
 		version = '*',

@@ -5,7 +5,9 @@ local toggle_term = function()
 		MainTerminal:open()
 	elseif not MainTerminal:is_focused() then
 		MainTerminal:focus()
-		vim.cmd('startinsert') -- switch to terminal mode
+		vim.schedule(function()
+			vim.cmd('startinsert') -- switch to terminal mode
+		end)
 	else
 		vim.cmd('wincmd p')
 	end
@@ -51,26 +53,11 @@ return {
 			insert_mappings = true,
 			terminal_mappings = true,
 			open_mapping = [[<C-\>]],
-
-			-- HACK: solves an issue with barbecue.nvim displaying a window bar
-			-- https://github.com/utilyre/barbecue.nvim/issues/92
-			on_open = function(term)
-				vim.defer_fn(function()
-					vim.wo[term.window].winbar = ''
-				end, 0)
-			end,
 		},
 		config = function(_, opts)
 			require('toggleterm').setup(opts)
 
 			MainTerminal = require('toggleterm.terminal').Terminal:new()
-
-			local mapOpts = {}
-			vim.keymap.set('t', 'jk', [[<C-\><C-n>]], mapOpts)
-			vim.keymap.set('t', '<C-h>', [[<Cmd>wincmd h<CR>]], mapOpts)
-			vim.keymap.set('t', '<C-j>', [[<Cmd>wincmd j<CR>]], mapOpts)
-			vim.keymap.set('t', '<C-k>', [[<Cmd>wincmd k<CR>]], mapOpts)
-			vim.keymap.set('t', '<C-l>', [[<Cmd>wincmd l<CR>]], mapOpts)
 
 			-- We can use <esc><esc> to be able to use a single <esc> in the terminal Vi mode.
 			-- vim.api.nvim_buf_set_keymap(0, "t", "<esc><esc>", [[<C-\><C-o>:ToggleTerm<CR>]], { noremap = true })

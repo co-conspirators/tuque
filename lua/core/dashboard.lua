@@ -8,7 +8,7 @@ return {
 				enable = true,
 			},
 			project = {
-				action = 'NeovimProjectLoadDashboard ',
+				action = 'SessionManagerLoadDir ',
 			},
 			shortcut = {
 				{
