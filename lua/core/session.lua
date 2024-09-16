@@ -57,8 +57,35 @@ local function open_project(project_folder)
 	end
 end
 
-local function project_picker(show_opened_only)
-	local project_folders = show_opened_only and list_open_projects() or list_projects()
+local function read_recent_projects()
+	local ok, result = pcall(vim.fn.readfile, vim.fn.stdpath('data') .. '/zellij-recency')
+	if not ok then
+		return {}
+	end
+	return result
+end
+
+local function write_recent_projects(project_folder)
+	local recency = read_recent_projects()
+
+	-- add/move to top of list
+	recency = vim.tbl_filter(function(entry)
+		return entry ~= project_folder
+	end, recency)
+	table.insert(recency, 1, project_folder)
+
+	-- truncate to 50 entries
+	recency = vim.list_slice(recency, 1, 50)
+
+	-- write
+	vim.fn.writefile(recency, vim.fn.stdpath('data') .. '/zellij-recency')
+end
+
+local function project_picker()
+	local project_folders = list_projects()
+	local open_projects = list_open_projects()
+	local cwd = vim.fn.expand(vim.fn.getcwd())
+	local recent_projects = read_recent_projects()
 
 	local pickers = require('telescope.pickers')
 	local finders = require('telescope.finders')
@@ -69,31 +96,65 @@ local function project_picker(show_opened_only)
 
 	local displayer = entry_display.create({
 		separator = ' ',
-		items = { { width = 30 }, { remaining = true } },
+		items = { {}, { width = 30 }, { remaining = true } },
 	})
+	local entry_maker = function(project_folder)
+		local name = vim.fn.fnamemodify(project_folder, ':t')
+		local is_open = vim.tbl_contains(open_projects, project_folder)
+		local is_current = cwd == project_folder
+		local recency_score = 0
+		for idx, recent_project in ipairs(recent_projects) do
+			if recent_project == project_folder then
+				recency_score = -(50 - idx) / 50 / 100
+				break
+			end
+			if idx >= 50 then
+				break
+			end
+		end
+		return {
+			display = function(entry)
+				return displayer({
+					entry.is_current and '∘' or entry.is_open and '•' or ' ',
+					entry.name,
+					{ entry.value, 'Comment' },
+				})
+			end,
+			name = name,
+			value = project_folder,
+			is_open = is_open,
+			is_current = is_current,
+			recency_score = recency_score,
+			ordinal = project_folder,
+		}
+	end
+
+	local sorter = conf.generic_sorter({})
+	local orig_scoring_function = sorter.scoring_function
+	sorter.scoring_function = function(sorter, prompt, project_folder)
+		local entry = entry_maker(project_folder)
+		local recency_score = entry.recency_score / 100
+		if #prompt == 0 then
+			return recency_score + (entry.is_current and 0.5 or entry.is_open and 0 or 1)
+		end
+
+		local score = orig_scoring_function(sorter, prompt, entry.name .. ' ' .. entry.value)
+		return math.max(-1, recency_score + (entry.is_open and score - 0.005 or score))
+	end
+
 	pickers
 		.new({}, {
 			prompt_title = 'Projects',
 			finder = finders.new_table({
 				results = project_folders,
-				entry_maker = function(entry)
-					local name = vim.fn.fnamemodify(entry, ':t')
-					return {
-						display = function(entry)
-							return displayer({ entry.name, { entry.value, 'Comment' } })
-						end,
-						name = name,
-						value = entry,
-						ordinal = name .. ' ' .. entry,
-					}
-				end,
+				entry_maker = entry_maker,
 			}),
-			-- todo: sort by last used
-			sorter = conf.generic_sorter({}),
+			sorter = sorter,
 			attach_mappings = function(prompt_bufnr)
 				actions.select_default:replace(function()
 					actions.close(prompt_bufnr)
 					local project_folder = action_state.get_selected_entry().value
+					write_recent_projects(project_folder)
 					open_project(project_folder)
 				end)
 				return true
@@ -115,16 +176,7 @@ return {
 		keys = {
 			{
 				'<leader>a',
-				function()
-					project_picker(true)
-				end,
-				desc = 'Opened Projects',
-			},
-			{
-				'<leader>A',
-				function()
-					project_picker(false)
-				end,
+				project_picker,
 				desc = 'Projects',
 			},
 			{ '<leader>fs', '<cmd>SessionManager load_session<cr>', desc = 'Sessions' },
