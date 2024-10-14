@@ -1,5 +1,6 @@
 return {
 	{
+		enabled = os.getenv('NVIM_DEV') == nil,
 		'lewis6991/gitsigns.nvim',
 		lazy = false,
 		keys = {
@@ -49,6 +50,7 @@ return {
 		},
 		opts = {
 			ephemeral = false, -- don't delete after neovim exits
+			read_only = false, -- don't make every file read-only
 			-- The actual `open` behavior.
 			---@param dir string The path to the local repository.
 			---@param repo_uri string The URI that was used to clone this repository.
@@ -133,6 +135,8 @@ return {
 			use_per_project_settings = false,
 			-- the time after which an output console is shown for slow running commands
 			console_timeout = 4000,
+			-- graph like https://github.com/rbong/vim-flog
+			graph_style = 'unicode',
 
 			commit_editor = {
 				kind = 'split',

@@ -4,7 +4,7 @@ return {
 		'rachartier/tiny-devicons-auto-colors.nvim',
 		event = 'UIEnter',
 		dependencies = {
-			'nvim-tree/nvim-web-devicons',
+			{ 'nvim-tree/nvim-web-devicons', commit = '9154484705968658e9aab2b894d1b2a64bf9f83d' },
 		},
 		config = true,
 	},
@@ -67,6 +67,7 @@ return {
 				['@lsp.type.generic'] = { fg = '$red' },
 
 				NormalFloat = { bg = '$bg_d' },
+				FloatBorder = { bg = '$bg_d' },
 				PMenuSel = { bg = '$blue', fg = '$bg1' },
 				WinSeparator = { fg = '$bg2', bg = '$bg_d' },
 				WinBar = { bg = '$bg0' },

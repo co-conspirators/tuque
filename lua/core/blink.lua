@@ -1,15 +1,57 @@
 return {
 	{
-		'saghen/blink.nvim',
-		build = 'cargo build --release',
+		'saghen/blink.cmp',
+		-- version = 'v0.*',
 		dev = true,
-		dependencies = {
+		-- note: requires nightly: https://rust-lang.github.io/rustup/concepts/channels.html#working-with-nightly-rust
+		-- build = 'cargo build --release',
+		lazy = false,
+		-- optional: provides snippets for the snippet source
+		dependencies = 'rafamadriz/friendly-snippets',
+		--- @type blink.cmp.Config
+		opts = {
+			highlight = {
+				-- sets the fallback highlight groups to nvim-cmp's highlight groups
+				-- useful for when your theme doesn't support blink.cmp
+				-- will be removed in a future release, assuming themes add support
+				use_nvim_cmp_as_default = true,
+			},
+			-- set to 'mono' for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
+			-- adjusts spacing to ensure icons are aligned
+			nerd_font_variant = 'normal',
+
+			-- experimental auto bracket support
+			accept = { auto_brackets = { enabled = true } },
+
+			-- experimental signature help support
+			trigger = { signature_help = { enabled = true } },
+		},
+		keys = {
 			{
-				'garymjr/nvim-snippets',
-				dependencies = { 'rafamadriz/friendly-snippets' },
-				opts = { create_cmp_source = false, friendly_snippets = true },
+				'<Tab>',
+				function()
+					vim.print('yo')
+				end,
+				mode = 'i',
 			},
 		},
+	},
+	-- {
+	-- 	enabled = os.getenv('NVIM_DEV') ~= nil,
+	-- 	'ray-x/lsp_signature.nvim',
+	-- 	event = 'LspAttach',
+	-- 	lazy = true,
+	-- 	config = function()
+	-- 		require('lsp_signature').on_attach({
+	-- 			handler_opts = { border = 'none' },
+	-- 			hint_enable = false,
+	-- 		})
+	-- 	end,
+	-- },
+
+	{
+		'saghen/blink.nvim',
+		dev = true,
 		lazy = false,
 		cmd = 'BlinkTree',
 		keys = {
@@ -159,7 +201,6 @@ return {
 						config = { border = 'single', width = 40 },
 					},
 				},
-				cmp = { enabled = true },
 				select = {
 					enabled = true,
 					mapping = {

@@ -37,9 +37,8 @@ return {
 	{
 		'neovim/nvim-lspconfig',
 		opts = function(_, opts)
-			opts.servers.eslint = {}
-			opts.servers.biome = {}
-			opts.servers.svelte = {}
+			-- opts.servers.eslint = {}
+			-- opts.servers.biome = {}
 
 			-- formatting
 			vim.list_extend(opts.servers.efm.filetypes, {
@@ -84,7 +83,7 @@ return {
 		'neovim/nvim-lspconfig',
 		opts = {
 			servers = {
-				tsserver = {},
+				ts_ls = {},
 			},
 		},
 	},

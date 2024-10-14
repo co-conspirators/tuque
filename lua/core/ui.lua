@@ -1,6 +1,31 @@
 return {
+	{
+		'NStefan002/screenkey.nvim',
+		cmd = 'ScreenKey',
+		version = '*',
+		opts = {
+			win_opts = {
+				border = 'none',
+			},
+		},
+	},
+
+	{
+		enabled = os.getenv('NVIM_DEV') == nil,
+		'folke/noice.nvim',
+		dependencies = 'MunifTanjim/nui.nvim',
+		opts = {
+			lsp = {
+				signature = {
+					enabled = false,
+				},
+			},
+		},
+	},
+
 	-- scrollbar
 	{
+		enabled = os.getenv('NVIM_DEV') == nil,
 		'lewis6991/satellite.nvim',
 		opts = {
 			handlers = {
@@ -109,6 +134,7 @@ return {
 
 	-- partition UI elements
 	{
+		enabled = os.getenv('NVIM_DEV') == nil,
 		'folke/edgy.nvim',
 		event = 'VeryLazy',
 		opts = {

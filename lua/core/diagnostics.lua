@@ -56,6 +56,7 @@ return {
 
 	-- TODO: remove the lowercase keywords since it's non-standard
 	{
+		enabled = os.getenv('NVIM_DEV') == nil,
 		'folke/todo-comments.nvim',
 		opts = {
 			signs = false, -- disable signs in sign column

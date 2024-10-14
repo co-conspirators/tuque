@@ -1,4 +1,5 @@
 return {
+	enabled = os.getenv('NVIM_DEV') == nil,
 	'HiPhish/rainbow-delimiters.nvim',
 	opts = function()
 		local rainbow_delimiters = require('rainbow-delimiters')
