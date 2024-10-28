@@ -99,6 +99,12 @@ autocmd('BufWinEnter', {
 		vim.api.nvim_win_set_buf(suitable_win, event.buf)
 	end,
 })
+-- clear the win_to_buf_map when the window is closed
+autocmd('WinLeave', {
+	callback = function(event)
+		win_to_buf_map[event.win] = nil
+	end,
+})
 
 -- Sets the current line's color based on the current mode
 -- Equivalent to modicator but fast
