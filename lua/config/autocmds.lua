@@ -60,6 +60,43 @@ autocmd('FileType', {
 		end
 	end,
 })
+
+local protected_filetypes = { 'blink-cmp', 'AvanteAsk', 'toggleterm' }
+--- @type table<number, number>
+local win_to_buf_map = {}
+autocmd('BufWinEnter', {
+	callback = function(event)
+		local prev_buf = win_to_buf_map[event.win]
+		if prev_buf == nil or not vim.api.nvim_buf_is_valid(prev_buf) then
+			return
+		end
+		local bo = vim.bo[prev_buf]
+		if not protected_filetypes[bo.filetype] then
+			return
+		end
+
+		-- restore previous buffer
+		vim.api.nvim_win_set_buf(event.win, prev_buf)
+
+		-- pick a suitable window to display the buffer in
+		local wins = vim.api.nvim_list_wins()
+		local suitable_win = nil
+		for _, win in ipairs(wins) do
+			local bo = vim.bo[vim.api.nvim_win_get_buf(win)]
+			if not protected_filetypes[bo.filetype] then
+				suitable_win = win
+				return
+			end
+		end
+
+		-- create a new window, if there is no suitable window
+		if suitable_win == nil then
+			vim.api.nvim_command('vnew')
+			suitable_win = vim.api.nvim_get_current_win()
+		end
+
+		-- set the buffer to the new window
+		vim.api.nvim_win_set_buf(suitable_win, event.buf)
 	end,
 })
 
