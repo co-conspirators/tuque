@@ -10,7 +10,17 @@ return {
 	},
 
 	-- LSP + code actions
-	'mrcjkb/rustaceanvim',
+	{
+		'mrcjkb/rustaceanvim',
+		-- dependencies = { 'saghen/blink.cmp' },
+		init = function()
+			-- vim.g.rustaceanvim = {
+			-- 	server = {
+			-- 		capabilities = require('blink.cmp').get_lsp_capabilities(),
+			-- 	},
+			-- }
+		end,
+	},
 
 	-- formatting
 	{

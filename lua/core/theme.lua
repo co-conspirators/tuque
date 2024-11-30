@@ -91,6 +91,17 @@ return {
 
 				EdgyNormal = { bg = '$bg_d' },
 
+				BlinkCmpGhostText = { fg = '$grey' },
+				BlinkCmpMenu = { bg = '$bg1' },
+				BlinkCmpMenuSelection = { bg = '$bg3' },
+				BlinkCmpLabelMatch = { fg = '$blue' },
+				BlinkCmpLabelDetail = { fg = '$light_grey' },
+				BlinkCmpLabelDescription = { fg = '$light_grey' },
+				BlinkCmpDoc = { bg = '$bg_d' },
+				BlinkCmpDocBorder = { bg = '$bg_d' },
+				BlinkCmpScrollBarThumb = { bg = '$grey' },
+				BlinkCmpScrollBarGutter = { bg = '$bg1' },
+
 				BlinkTreeNormal = { bg = '$bg_d' },
 				BlinkTreeNormalNC = { bg = '$bg_d' },
 				BlinkTreeIndent = { fg = '$bg3' },
@@ -105,12 +116,16 @@ return {
 
 				BlinkIndent = { fg = '$bg1' },
 
-				ModeNormal = { fg = '$green' },
-				ModeInsert = { fg = '$blue' },
-				ModeVisual = { fg = '$yellow' },
-				ModeCommand = { fg = '$red' },
-				ModeSelect = { fg = '$purple' },
-				ModeReplace = { fg = '$red' },
+				CursorLine = { bg = '$bg1' },
+				CursorLineNr = { bg = '$bg1' },
+				CursorLineSign = { bg = '$bg1' },
+				ModeNormal = { fg = '$green', bg = '$bg1' },
+				ModeInsert = { fg = '$blue', bg = '$bg1' },
+				ModeVisual = { fg = '$purple', bg = '$bg1' },
+				ModeCommand = { fg = '$red', bg = '$bg1' },
+				ModeSelect = { fg = '$purple', bg = '$bg1' },
+				ModeReplace = { fg = '$red', bg = '$bg1' },
+				ModeTerminal = { fg = '$yellow', bg = '$bg1' },
 
 				TelescopePathSeparator = { fg = '$light_grey' },
 
@@ -127,6 +142,11 @@ return {
 				TelescopePreviewTitle = { fg = '$blue' },
 				TelescopePromptTitle = { fg = '$blue' },
 				TelescopeResultsTitle = { fg = '$blue' },
+
+				LightBulbSign = { fg = '$yellow' },
+
+				AvanteNormal = { bg = '$bg_d' },
+				AvanteStatusLine = { bg = '$bg_d', fg = '$bg_d' },
 			},
 		},
 	},

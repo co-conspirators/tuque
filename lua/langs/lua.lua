@@ -1,4 +1,12 @@
 return {
+	-- console/scratchpad
+	{
+		'yarospace/lua-console.nvim',
+		lazy = true,
+		keys = { { '<leader>il', desc = 'Lua Console' } },
+		opts = { mappings = { toggle = '<leader>il' } },
+	},
+
 	-- treesitter
 	{
 		'nvim-treesitter/nvim-treesitter',
@@ -17,6 +25,8 @@ return {
 		'folke/lazydev.nvim',
 		ft = 'lua', -- only load on lua files
 		opts = {
+			--- @module 'lazydev'
+			--- @type lazydev.Library.spec[]
 			library = {
 				-- See the configuration section for more details
 				-- Load luvit types when the `vim.uv` word is found
@@ -24,6 +34,21 @@ return {
 			},
 		},
 	},
+	-- {
+	-- 	'saghen/blink.cmp',
+	-- 	dependencies = { 'folke/lazydev.nvim' },
+	-- 	opts = {
+	-- 		sources = {
+	-- 			completion = {
+	-- 				enabled_providers = { 'lazydev' },
+	-- 			},
+	-- 			providers = {
+	-- 				lsp = { fallback_for = { 'lazydev' } },
+	-- 				lazydev = { name = 'LazyDev', module = 'lazydev.integrations.blink' },
+	-- 			},
+	-- 		},
+	-- 	},
+	-- },
 	{ 'Bilal2453/luvit-meta', lazy = true }, -- optional `vim.uv` typings
 	{
 		'neovim/nvim-lspconfig',

@@ -19,6 +19,9 @@ require('lazy').setup({
 		lazy = false, -- whether to lazy load all plugins by default
 		version = false, -- always use the latest git commit
 	},
+	rocks = {
+		hererocks = false,
+	},
 	checker = { enabled = false, frequency = 60 * 60 * 24 * 7 }, -- automatically check for plugin updates every week
 	performance = {
 		rtp = {

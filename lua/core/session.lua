@@ -175,7 +175,7 @@ return {
 		cmd = { 'SessionManager', 'SessionManagerLoadDir' },
 		keys = {
 			{
-				'<leader>a',
+				'<leader>-',
 				project_picker,
 				desc = 'Projects',
 			},

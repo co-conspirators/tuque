@@ -3,6 +3,17 @@ return {
 		'nvim-telescope/telescope.nvim',
 		dependencies = { 'nvim-lua/plenary.nvim', 'nvim-telescope/telescope-fzy-native.nvim' },
 		keys = {
+			{
+				'<leader>/',
+				function()
+					require('telescope.builtin').current_buffer_fuzzy_find(require('telescope.themes').get_dropdown({
+						winblend = 10,
+						previewer = false,
+					}))
+				end,
+				desc = 'Search Current Buffer',
+			},
+
 			{ '<leader>.', '<cmd>Telescope buffers sort_mru=true sort_lastused=true<cr>', desc = 'Buffers' },
 			{ '<leader>:', '<cmd>Telescope command_history<cr>', desc = 'Command History' },
 			{ "<leader>'", '<cmd>Telescope registers<cr>', desc = 'Registers' },
@@ -22,8 +33,8 @@ return {
 			{ '<leader>fg', "<cmd>lua require'telescope'.extensions.repo.list{}<cr>", desc = 'Git Repositories' },
 
 			-- git
-			{ '<leader>gc', '<cmd>Telescope git_commits<cr>', desc = 'commits' },
-			{ '<leader>gs', '<cmd>Telescope git_status<cr>', desc = 'status' },
+			{ '<leader>gsc', '<cmd>Telescope git_commits<cr>', desc = 'commits' },
+			{ '<leader>gss', '<cmd>Telescope git_status<cr>', desc = 'status' },
 
 			-- search
 			{ '<leader>sa', '<cmd>Telescope autocommands<cr>', desc = 'Auto Commands' },
@@ -38,6 +49,13 @@ return {
 			{ '<leader>sk', '<cmd>Telescope keymaps<cr>', desc = 'Key Maps' },
 			{ '<leader>sM', '<cmd>Telescope man_pages<cr>', desc = 'Man Pages' },
 			{ '<leader>sm', '<cmd>Telescope marks<cr>', desc = 'Jump to Mark' },
+			{
+				'<leader>sn',
+				function()
+					require('telescope.builtin').find_files({ cwd = vim.fn.stdpath('config') })
+				end,
+				desc = 'Neovim Config',
+			},
 			{ '<leader>so', '<cmd>Telescope vim_options<cr>', desc = 'Options' },
 			{ '<leader>cl', '<cmd>Telescope filetypes<cr>', desc = 'Pick Language' },
 		},

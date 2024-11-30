@@ -37,6 +37,7 @@ return {
 	{
 		'neovim/nvim-lspconfig',
 		opts = function(_, opts)
+			opts.servers.vtsls = {}
 			-- opts.servers.eslint = {}
 			-- opts.servers.biome = {}
 
@@ -74,53 +75,4 @@ return {
 			opts.servers.efm.settings.languages.svelte = { prettierd }
 		end,
 	},
-
-	-- LSP
-
-	-- performs drastically better than tsserver because we can limit the number of entries
-	-- todo: shows symbols from node_modules, mitigated via telescope
-	{
-		'neovim/nvim-lspconfig',
-		opts = {
-			servers = {
-				ts_ls = {},
-			},
-		},
-	},
-	-- {
-	-- 	'yioneko/nvim-vtsls',
-	-- 	config = function()
-	-- 		local opts = require('vtsls').lspconfig
-	-- 		opts.settings = {
-	-- 			typescript = {
-	-- 				preferences = {
-	-- 					preferTypeOnlyAutoImports = true,
-	-- 				},
-	-- 				workspaceSymbols = {
-	-- 					scope = 'currentProject',
-	-- 					excludeLibrarySymbols = true,
-	-- 				},
-	-- 				tsserver = {
-	-- 					pluginPaths = {
-	-- 						-- requires: npm i -g @styled/typescript-styled-plugin typescript-styled-plugin
-	-- 						-- TODO: Install with mason or some other way
-	-- 						'~/.local/share/npm/lib/node_modules/@styled/typescript-styled-plugin',
-	-- 					},
-	-- 				},
-	-- 			},
-	-- 			vtsls = {
-	-- 				autoUseWorkspaceTsdk = true,
-	-- 				experimental = {
-	-- 					completion = {
-	-- 						-- enableServerSideFuzzyMatch = true,
-	-- 						-- entriesLimit = 75,
-	-- 					},
-	-- 				},
-	-- 			},
-	-- 		}
-	-- 		require('lspconfig').vtsls.setup(opts)
-	-- 	end,
-	-- },
-	-- TODO: install with nix
-	-- { 'williamboman/mason.nvim', opts = { ensure_installed = { vtsls = {} } } },
 }

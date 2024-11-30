@@ -7,10 +7,22 @@ map({ 'n', 'x' }, 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true
 map({ 'n', 'x' }, '<Up>', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 
 -- Move to window using the <ctrl> hjkl keys
-map('n', '<C-h>', '<C-w>h', { desc = 'Go to left window', remap = true })
-map('n', '<C-j>', '<C-w>j', { desc = 'Go to lower window', remap = true })
-map('n', '<C-k>', '<C-w>k', { desc = 'Go to upper window', remap = true })
-map('n', '<C-l>', '<C-w>l', { desc = 'Go to right window', remap = true })
+map({ 'n', 't' }, '<C-h>', function()
+	vim.cmd.wincmd('h')
+end, { desc = 'Go to left window' })
+map({ 'n', 't' }, '<C-j>', function()
+	vim.cmd.wincmd('j')
+end, { desc = 'Go to lower window' })
+map({ 'n', 't' }, '<C-k>', function()
+	vim.cmd.wincmd('k')
+end, { desc = 'Go to upper window' })
+map({ 'n' }, '<C-l>', function() -- TODO: not used for terminal because we want clear
+	vim.cmd.wincmd('l')
+end, { desc = 'Go to right window' })
+map({ 'n', 't' }, '<S-Left>', '<C-w>h', { desc = 'Go to left window', remap = true })
+map({ 'n', 't' }, '<S-Down>', '<C-w>j', { desc = 'Go to lower window', remap = true })
+map({ 'n', 't' }, '<S-Up>', '<C-w>k', { desc = 'Go to upper window', remap = true })
+map({ 'n', 't' }, '<S-Right>', '<C-w>l', { desc = 'Go to right window', remap = true })
 
 -- buffers
 map('n', '<S-h>', '<cmd>bprevious<cr>', { desc = 'Prev buffer' })
@@ -19,6 +31,40 @@ map('n', '[b', '<cmd>bprevious<cr>', { desc = 'Prev buffer' })
 map('n', ']b', '<cmd>bnext<cr>', { desc = 'Next buffer' })
 map('n', '<leader>bb', '<cmd>e #<cr>', { desc = 'Switch to Other Buffer' })
 map('n', '<leader><backspace>', '<cmd>e #<cr>', { desc = 'Switch to Other Buffer' })
+
+-- jump to next/prev file
+map('n', '[f', function()
+	local current_file = vim.fn.expand('%:p')
+
+	-- get all files in the directory, sorted
+	local files = vim.fn.glob(vim.fn.expand('%:p:h') .. '/*', false, true)
+	files = vim.tbl_filter(function(file)
+		return vim.fn.isdirectory(file) == 0
+	end, files)
+	table.sort(files)
+
+	local index = vim.fn.index(files, current_file) + 1
+	if index <= 1 then
+		return
+	end
+	vim.cmd('e ' .. files[index - 1])
+end, { desc = 'Prev file' })
+map('n', ']f', function()
+	local current_file = vim.fn.expand('%:p')
+
+	-- get all files in the directory, sorted
+	local files = vim.fn.glob(vim.fn.expand('%:p:h') .. '/*', false, true)
+	files = vim.tbl_filter(function(file)
+		return vim.fn.isdirectory(file) == 0
+	end, files)
+	table.sort(files)
+
+	local index = vim.fn.index(files, current_file) + 1
+	if index == #files or index == 0 then
+		return
+	end
+	vim.cmd('e ' .. files[index + 1])
+end, { desc = 'Next file' })
 
 -- Clear search with <esc>
 map({ 'i', 'n' }, '<esc>', '<cmd>noh<cr><esc>', { desc = 'Escape and clear hlsearch' })

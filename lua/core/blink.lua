@@ -8,52 +8,63 @@ return {
 		lazy = false,
 		-- optional: provides snippets for the snippet source
 		dependencies = 'rafamadriz/friendly-snippets',
+		--- @module 'blink.cmp'
 		--- @type blink.cmp.Config
+		--- @diagnostic disable: missing-fields
 		opts = {
-			highlight = {
-				-- sets the fallback highlight groups to nvim-cmp's highlight groups
-				-- useful for when your theme doesn't support blink.cmp
-				-- will be removed in a future release, assuming themes add support
+			keymap = {
+				['<C-space>'] = { 'show', 'show_documentation', 'hide_documentation' },
+				['<C-e>'] = { 'cancel' },
+				['<C-g>'] = { 'accept' },
+
+				['<C-t>'] = { 'select_prev' },
+				['<C-d>'] = { 'select_next' },
+				['<C-p>'] = { 'select_prev' },
+				['<C-n>'] = { 'select_next' },
+
+				['<C-b>'] = { 'scroll_documentation_up', 'fallback' },
+				['<C-f>'] = { 'scroll_documentation_down', 'fallback' },
+
+				['<Tab>'] = { 'snippet_forward', 'fallback' },
+				['<S-Tab>'] = { 'snippet_backward', 'fallback' },
+			},
+			appearance = {
+				nerd_font_variant = 'normal',
 				use_nvim_cmp_as_default = true,
 			},
-			-- set to 'mono' for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
-			-- adjusts spacing to ensure icons are aligned
-			nerd_font_variant = 'normal',
-
-			-- experimental auto bracket support
-			accept = { auto_brackets = { enabled = true } },
-
-			-- experimental signature help support
-			trigger = { signature_help = { enabled = true } },
-		},
-		keys = {
-			{
-				'<Tab>',
-				function()
-					vim.print('yo')
-				end,
-				mode = 'i',
+			sources = {
+				completion = {
+					enabled_providers = { 'lsp', 'buffer', 'path' },
+				},
 			},
+
+			completion = {
+				-- list = { selection = 'auto_insert' },
+				accept = { auto_brackets = { enabled = true } },
+				documentation = { auto_show = true },
+				ghost_text = { enabled = false },
+			},
+
+			signature = { enabled = true },
 		},
+		opts_extend = { 'sources.completion.enabled_providers' },
 	},
-	-- {
-	-- 	enabled = os.getenv('NVIM_DEV') ~= nil,
-	-- 	'ray-x/lsp_signature.nvim',
-	-- 	event = 'LspAttach',
-	-- 	lazy = true,
-	-- 	config = function()
-	-- 		require('lsp_signature').on_attach({
-	-- 			handler_opts = { border = 'none' },
-	-- 			hint_enable = false,
-	-- 		})
-	-- 	end,
-	-- },
+	{
+		'neovim/nvim-lspconfig',
+		dependencies = { 'saghen/blink.cmp' },
+		config = function(_, opts)
+			local lspconfig = require('lspconfig')
+			for server, config in pairs(opts.servers) do
+				config.capabilities = require('blink.cmp').get_lsp_capabilities(config.capabilities)
+				lspconfig[server].setup(config)
+			end
+		end,
+	},
 
 	{
 		'saghen/blink.nvim',
 		dev = true,
 		lazy = false,
-		cmd = 'BlinkTree',
 		keys = {
 			-- chartoggle
 			{
@@ -174,16 +185,19 @@ return {
 						{ mode = 'x', keys = 'z' },
 					},
 					clues = {
+						{ mode = 'n', keys = '<leader>b', desc = 'AI' },
 						{ mode = 'n', keys = '<leader>b', desc = 'Buffers' },
 						{ mode = 'n', keys = '<leader>c', desc = 'Coding' },
 						{ mode = 'n', keys = '<leader>d', desc = 'Debug' },
 						{ mode = 'n', keys = '<leader>e', desc = 'Errors' },
-						{ mode = 'n', keys = '<leader>q', desc = 'Quit' },
-						{ mode = 'n', keys = '<leader>s', desc = 'Search' },
-						{ mode = 'n', keys = '<leader>sg', desc = 'Git' },
-						{ mode = 'n', keys = '<leader>sgd', desc = 'Diff' },
 						{ mode = 'n', keys = '<leader>f', desc = 'Files' },
 						{ mode = 'n', keys = '<leader>g', desc = 'Git' },
+						{ mode = 'n', keys = '<leader>i', desc = 'Interfaces' },
+						{ mode = 'n', keys = '<leader>q', desc = 'Quit' },
+						{ mode = 'n', keys = '<leader>s', desc = 'Search' },
+						{ mode = 'n', keys = '<leader>gsd', desc = 'Diff' },
+						{ mode = 'n', keys = '<leader>gs', desc = 'Search' },
+						{ mode = 'n', keys = '<leader>go', desc = 'Open URL' },
 						{ mode = 'n', keys = '<leader>gy', desc = 'Copy URL' },
 						{ mode = 'n', keys = '<leader>u', desc = 'Options' },
 						{ mode = 'n', keys = '<leader>w', desc = 'Windows' },

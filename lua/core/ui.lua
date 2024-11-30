@@ -1,4 +1,19 @@
 return {
+	-- forces plugins to use CursorLineSign
+	{
+		'jake-stewart/force-cul.nvim',
+		config = function()
+			require('force-cul').setup()
+		end,
+	},
+
+	-- emulates the smear cursor from neovide/kitty
+	{
+		enabled = false,
+		'sphamba/smear-cursor.nvim',
+		opts = {},
+	},
+
 	{
 		'NStefan002/screenkey.nvim',
 		cmd = 'ScreenKey',
@@ -11,14 +26,14 @@ return {
 	},
 
 	{
-		enabled = os.getenv('NVIM_DEV') == nil,
+		enabled = false,
+		-- enabled = os.getenv('NVIM_DEV') == nil,
 		'folke/noice.nvim',
 		dependencies = 'MunifTanjim/nui.nvim',
 		opts = {
 			lsp = {
-				signature = {
-					enabled = false,
-				},
+				progress = { enabled = false },
+				signature = { enabled = false },
 			},
 		},
 	},
@@ -174,22 +189,6 @@ return {
 				},
 			},
 		},
-	},
-
-	-- live feedback for rename
-	{
-		'smjonas/inc-rename.nvim',
-		keys = {
-			{
-				'<leader>cr',
-				function()
-					return ':IncRename ' .. vim.fn.expand('<cword>')
-				end,
-				expr = true,
-				desc = 'Rename',
-			},
-		},
-		config = true,
 	},
 
 	-- LSP notifications

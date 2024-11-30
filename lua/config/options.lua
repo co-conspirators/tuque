@@ -24,7 +24,6 @@ opt.number = true -- Print line number
 opt.pumblend = 0 -- Popup blend
 opt.pumheight = 10 -- Maximum number of entries in a popup
 opt.relativenumber = true -- Relative line numbers
-opt.shiftwidth = 2 -- Size of an indent
 opt.showmode = false -- We have a status line and modicator
 opt.signcolumn = 'yes' -- Always show the signcolumn, otherwise it would shift the text each time
 opt.ignorecase = true -- Ignore case when searching, unless there's a capital with flash.nvim
@@ -32,13 +31,24 @@ opt.scrolloff = 4 -- Minimal number of screen lines to keep above and below the 
 opt.smartcase = true -- Don't ignore case with capitals
 opt.smartindent = true -- Insert indents automatically
 opt.spelllang = { 'en' }
-opt.tabstop = 2 -- Number of spaces tabs count for
 opt.termguicolors = true -- True color support
 opt.undofile = true
-opt.undolevels = 10000
+-- Maximum number of changes that can be undone, large values increase file loading time:
+-- https://www.reddit.com/r/neovim/comments/1gq17re/a_large_undolevel_will_slow_down_buffer_loading
+opt.undolevels = 500
 opt.updatetime = 200 -- Save swap file and trigger CursorHold
 opt.virtualedit = 'block' -- Allow cursor to move where there is no text in visual block mode
 opt.wrap = true -- Line wrapping
+
+opt.shiftwidth = 2 -- Size of an indent
+opt.tabstop = 2 -- Number of spaces tabs count for
+vim.api.nvim_create_autocmd('FileType', { -- doesn't apply to markdown by default for some reason
+	pattern = 'markdown',
+	callback = function()
+		vim.opt_local.shiftwidth = 2
+		vim.opt_local.tabstop = 2
+	end,
+})
 
 if os.getenv('NVIM_DEV') ~= nil then
 	opt.swapfile = false
@@ -63,7 +73,7 @@ opt.laststatus = 0
 opt.splitkeep = 'screen'
 
 opt.list = true
-opt.listchars:append('space:⋅')
+opt.listchars:append('space: ')
 opt.listchars:append('trail:⋅')
 opt.fillchars = {
 	fold = ' ', -- or "⸱"

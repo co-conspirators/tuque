@@ -65,7 +65,7 @@ return {
 	{
 		'neovim/nvim-lspconfig',
 		event = 'BufRead',
-		dependencies = { 'creativenull/efmls-configs-nvim' },
+		dependencies = { 'creativenull/efmls-configs-nvim', 'saghen/blink.cmp' },
 		keys = {
 			{
 				'<leader>cf',
@@ -93,7 +93,12 @@ return {
 		},
 		opts = {
 			servers = {
+				clojure_lsp = {},
+				-- clangd = {},
+				-- gleam = {},
+				-- dartls = {},
 				dockerls = {},
+				ols = {},
 				efm = {
 					filetypes = {},
 					settings = {
@@ -111,6 +116,7 @@ return {
 		config = function(_, opts)
 			local lspconfig = require('lspconfig')
 			for server, config in pairs(opts.servers) do
+				config.capabilities = require('blink.cmp').get_lsp_capabilities(config.capabilities)
 				lspconfig[server].setup(config)
 			end
 		end,
@@ -125,5 +131,41 @@ return {
 		init = function()
 			vim.g.any_jump_disable_default_keybindings = 1
 		end,
+	},
+
+	-- rename in-place with the LSP and live feedback
+	{
+		'saecki/live-rename.nvim',
+		keys = {
+			{
+				'cr',
+				function()
+					require('live-rename').rename()
+				end,
+				desc = 'Rename',
+			},
+			{
+				'cR',
+				function()
+					require('live-rename').rename({ text = '', insert = true })
+				end,
+				desc = 'Rename (force)',
+			},
+		},
+		opts = {
+			hl = {
+				current = 'LiveRenameCurrent',
+				others = 'LiveRenameOther',
+			},
+		},
+	},
+	{
+		'navarasu/onedark.nvim',
+		opts = {
+			highlights = {
+				LiveRenameCurrent = { fg = '$blue', bg = '$diff_change', fmt = '$none' },
+				LiveRenameOther = { fg = '$red', bg = '$diff_delete' },
+			},
+		},
 	},
 }

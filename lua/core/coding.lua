@@ -1,4 +1,6 @@
 return {
+	{ 'echasnovski/mini.ai' },
+
 	{
 		'Wansmer/treesj',
 		keys = {
@@ -55,8 +57,16 @@ return {
 	},
 
 	-- todo: fork to support limitting filetypes via lua or contribute
-	{ 'echasnovski/mini.cursorword', version = false, opts = {} },
+	{ 'echasnovski/mini.cursorword', version = false, opts = { delay = 400 } },
 	{ 'echasnovski/mini.pairs', event = 'InsertEnter', version = false, opts = {} },
+	-- {
+	-- 	'altermo/ultimate-autopair.nvim',
+	-- 	event = { 'InsertEnter', 'CmdlineEnter' },
+	-- 	branch = 'v0.6', --recommended as each new version will have breaking changes
+	-- 	opts = {
+	-- 		--Config goes here
+	-- 	},
+	-- },
 	{
 		'echasnovski/mini.surround',
 		version = '*',

@@ -1,3 +1,5 @@
+--- @module 'toggleterm'
+--- @type Terminal
 MainTerminal = nil
 
 local toggle_term = function()
@@ -33,6 +35,7 @@ return {
 	-- terminal
 	{
 		'akinsho/nvim-toggleterm.lua',
+		lazy = false,
 		keys = {
 			{
 				[[<C-\>]],

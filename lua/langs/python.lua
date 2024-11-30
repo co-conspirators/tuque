@@ -31,8 +31,7 @@ return {
 	{
 		'neovim/nvim-lspconfig',
 		opts = function(_, opts)
-			opts.servers.pyright = {}
-			opts.servers.ruff_lsp = {}
+			opts.servers.basedpyright = {}
 
 			table.insert(opts.servers.efm.filetypes, 'python')
 			opts.servers.efm.settings.languages.python = { require('efmls-configs.formatters.black') }

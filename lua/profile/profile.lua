@@ -1,14 +1,25 @@
 return {
 	enabled = os.getenv('NVIM_PROFILE') ~= nil,
 	'stevearc/profile.nvim',
-	config = function(_, __)
+	config = function()
 		local should_profile = os.getenv('NVIM_PROFILE')
 		if should_profile then
-			require('profile').instrument_autocmds()
+			local profile = require('profile')
+			profile.instrument_autocmds()
+
+			local range = os.getenv('NVIM_PROFILE')
+			if range == '1' or range == 'start' then
+				range = '*'
+			end
+
+			profile.ignore('vim.tbl_*')
+			profile.ignore('vim.shared.*')
+			profile.ignore('vim._editor.*')
+			profile.ignore('blink.cmp.windows.lib.render.*')
+			profile.ignore('blink.cmp.windows.render_item*')
+			profile.instrument(range)
 			if should_profile:lower():match('^start') then
-				require('profile').start('*')
-			else
-				require('profile').instrument('*')
+				profile.start(range)
 			end
 		end
 
@@ -27,7 +38,7 @@ return {
 					end
 				end)
 			else
-				prof.start('neo-tree.*')
+				prof.start('*')
 			end
 		end
 		vim.keymap.set('', '<f1>', toggle_profile)
