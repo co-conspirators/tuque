@@ -150,7 +150,7 @@ return {
 	{
 		dev = true,
 		'danielfalk/smart-open.nvim',
-		branch = '0.2.x',
+		branch = '0.3.x',
 		dependencies = { 'kkharji/sqlite.lua' },
 		keys = {
 			{
