@@ -4,7 +4,7 @@ return {
 		-- version = 'v0.*',
 		dev = true,
 		-- note: requires nightly: https://rust-lang.github.io/rustup/concepts/channels.html#working-with-nightly-rust
-		-- build = 'cargo build --release',
+		build = 'cargo build --release',
 		lazy = false,
 		-- optional: provides snippets for the snippet source
 		dependencies = 'rafamadriz/friendly-snippets',
@@ -41,7 +41,7 @@ return {
 			completion = {
 				-- list = { selection = 'auto_insert' },
 				accept = { auto_brackets = { enabled = true } },
-				documentation = { auto_show = true },
+				documentation = { auto_show = false },
 				ghost_text = { enabled = false },
 			},
 
