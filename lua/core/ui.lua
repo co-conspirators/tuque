@@ -2,9 +2,15 @@ return {
 	-- forces plugins to use CursorLineSign
 	{
 		'jake-stewart/force-cul.nvim',
-		config = function()
-			require('force-cul').setup()
-		end,
+		opts = {},
+	},
+
+	-- only show list chars for selected chars/lines
+	{
+		enabled = false, -- TODO: enable after 0.10.3 or 0.11.0 releases
+		'mcauley-penney/visual-whitespace.nvim',
+		branch = 'incremental-hl', -- TODO: switch to main after merged
+		config = true,
 	},
 
 	-- emulates the smear cursor from neovide/kitty
@@ -25,9 +31,9 @@ return {
 		},
 	},
 
+	-- UI for commands and search
 	{
-		enabled = false,
-		-- enabled = os.getenv('NVIM_DEV') == nil,
+		enabled = os.getenv('NVIM_DEV') == nil,
 		'folke/noice.nvim',
 		dependencies = 'MunifTanjim/nui.nvim',
 		opts = {

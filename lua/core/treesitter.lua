@@ -1,14 +1,4 @@
 return {
-	-- major mode for editing with treesitter
-	{
-		'gsuuon/tshjkl.nvim',
-		opts = {
-			keymaps = {
-				toggle = '-',
-			},
-		},
-	},
-
 	-- treesitter
 	{
 		'nvim-treesitter/nvim-treesitter',

@@ -58,6 +58,10 @@ return {
 	{
 		enabled = os.getenv('NVIM_DEV') == nil,
 		'folke/todo-comments.nvim',
+		lazy = false,
+		keys = {
+			{ '<leader>st', '<cmd>TodoTelescope<cr>', desc = 'Todos' },
+		},
 		opts = {
 			signs = false, -- disable signs in sign column
 			keywords = {
@@ -81,14 +85,5 @@ return {
 				},
 			},
 		},
-	},
-
-	-- Show diagnostics in the top right instead of inline
-	-- TODO: gets in the way sometimes
-	{
-		enabled = false,
-		'dgagn/diagflow.nvim',
-		event = 'LspAttach',
-		opts = {},
 	},
 }

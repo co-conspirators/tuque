@@ -1,6 +1,0 @@
-{
-  "TODO": {
-    "body": "-- TODO: ${1:TODO}",
-    "prefix": "td"
-  }
-}

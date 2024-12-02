@@ -143,8 +143,6 @@ return {
 				TelescopePromptTitle = { fg = '$blue' },
 				TelescopeResultsTitle = { fg = '$blue' },
 
-				LightBulbSign = { fg = '$yellow' },
-
 				AvanteNormal = { bg = '$bg_d' },
 				AvanteStatusLine = { bg = '$bg_d', fg = '$bg_d' },
 			},
