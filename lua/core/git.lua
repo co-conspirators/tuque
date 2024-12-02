@@ -124,7 +124,8 @@ return {
 
 	-- main client
 	{
-		'NeogitOrg/neogit',
+		'Saghen/neogit',
+		branch = 'configurable-popup-kind',
 		dependencies = {
 			'nvim-lua/plenary.nvim',
 			'nvim-telescope/telescope.nvim',
@@ -145,6 +146,9 @@ return {
 			graph_style = 'unicode',
 
 			commit_editor = {
+				kind = 'split',
+			},
+			popup = {
 				kind = 'split',
 			},
 			mappings = {

@@ -174,6 +174,7 @@ return {
 						return vim.bo[buf].buftype == 'help'
 					end,
 				},
+				{ ft = 'NeogitConsole', height = 20 },
 			},
 			left = {
 				{ ft = 'blink-tree' },
