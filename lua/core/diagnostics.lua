@@ -48,7 +48,7 @@ return {
 				preview = { debounce = false },
 			},
 			action_keys = {
-				previous = { 'k', '<Up' },
+				previous = { 'k', '<Up>' },
 				next = { 'j', '<Down>' },
 			},
 		},
