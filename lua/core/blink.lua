@@ -33,9 +33,34 @@ return {
 				use_nvim_cmp_as_default = true,
 			},
 			sources = {
-				completion = {
-					enabled_providers = { 'lsp', 'buffer', 'path' },
+				default = { 'lsp', 'buffer', 'path' },
+				-- default = { 'lsp', 'buffer', 'path', 'snippets' },
+				-- default = { 'lsp', 'buffer', 'luasnip', 'path' },
+				cmdline = {},
+				providers = {
+					snippets = {
+						opts = {
+							extended_filetypes = {
+								lua = { 'typescript' },
+							},
+						},
+					},
 				},
+			},
+
+			snippets = {
+				expand = function(snippet)
+					require('luasnip').lsp_expand(snippet)
+				end,
+				active = function(filter)
+					if filter and filter.direction then
+						return require('luasnip').jumpable(filter.direction)
+					end
+					return require('luasnip').in_snippet()
+				end,
+				jump = function(direction)
+					require('luasnip').jump(direction)
+				end,
 			},
 
 			completion = {
@@ -47,7 +72,7 @@ return {
 
 			signature = { enabled = true },
 		},
-		opts_extend = { 'sources.completion.enabled_providers' },
+		opts_extend = { 'sources.default' },
 	},
 	{
 		'neovim/nvim-lspconfig',
@@ -67,14 +92,14 @@ return {
 		lazy = false,
 		keys = {
 			-- chartoggle
-			{
-				';',
-				function()
-					require('blink.chartoggle').toggle_char_eol(';')
-				end,
-				mode = { 'n', 'v' },
-				desc = 'Toggle ; at eol',
-			},
+			-- {
+			-- 	';',
+			-- 	function()
+			-- 		require('blink.chartoggle').toggle_char_eol(';')
+			-- 	end,
+			-- 	mode = { 'n', 'v' },
+			-- 	desc = 'Toggle ; at eol',
+			-- },
 			{
 				',',
 				function()
@@ -214,6 +239,9 @@ return {
 						delay = 200,
 						config = { border = 'single', width = 40 },
 					},
+				},
+				delimiters = {
+					enabled = true,
 				},
 				select = {
 					enabled = true,

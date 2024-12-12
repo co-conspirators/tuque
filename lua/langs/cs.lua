@@ -1,11 +1,11 @@
 return {
-	-- {
-	-- 	'seblj/roslyn.nvim',
-	-- 	ft = 'cs',
-	-- 	opts = {
-	-- 		exe = 'Microsoft.CodeAnalysis.LanguageServer',
-	-- 	},
-	-- },
+	{
+		'seblj/roslyn.nvim',
+		ft = 'cs',
+		opts = {
+			exe = 'Microsoft.CodeAnalysis.LanguageServer',
+		},
+	},
 
 	{
 		'neovim/nvim-lspconfig',
