@@ -60,7 +60,7 @@ return {
 		'folke/todo-comments.nvim',
 		lazy = false,
 		keys = {
-			{ '<leader>st', '<cmd>TodoTelescope<cr>', desc = 'Todos' },
+			{ '<leader>st', '<cmd>TodoTelescope keywords=TODO,HACK,FIX<cr>', desc = 'Todos' },
 		},
 		opts = {
 			signs = false, -- disable signs in sign column

@@ -131,6 +131,7 @@ return {
 			'nvim-telescope/telescope.nvim',
 			'sindrets/diffview.nvim',
 		},
+		command = { 'Neogit', 'NeogitCommit', 'NeogitLogCurrent', 'NeogitResetState' },
 		keys = {
 			-- NOTE: use `b o` in neogit to open PR
 			{ '<leader>gg', '<cmd>Neogit kind=replace<cr>', desc = 'Open Neogit' },

@@ -27,6 +27,7 @@ opt.relativenumber = true -- Relative line numbers
 opt.showmode = false -- We have a status line and modicator
 opt.signcolumn = 'yes' -- Always show the signcolumn, otherwise it would shift the text each time
 opt.ignorecase = true -- Ignore case when searching, unless there's a capital with flash.nvim
+opt.scroll = 4 -- Lines to scroll for <C-u> and <C-d>
 opt.scrolloff = 4 -- Minimal number of screen lines to keep above and below the cursor
 opt.smartcase = true -- Don't ignore case with capitals
 opt.smartindent = true -- Insert indents automatically
@@ -93,13 +94,13 @@ opt.fillchars = {
 opt.mouse = 'a'
 opt.mousemoveevent = true
 
-opt.guifont = 'IosevkaCustom Nerd Font:h12'
+opt.guifont = 'IosevkaCustom Nerd Font:h14'
 
 -- Support for semantic higlighting https://github.com/neovim/neovim/pull/21100
 g.lsp_semantic_enabled = 1
 
 if g.neovide then
-	opt.linespace = 4
+	opt.linespace = 6
 	g.neovide_scale_factor = 1.0
 	g.neovide_refresh_rate = 288
 	g.neovide_cursor_trail_size = 0.1

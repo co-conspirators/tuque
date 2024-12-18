@@ -149,7 +149,7 @@ return {
 				function()
 					require('live-rename').rename({ text = '', insert = true })
 				end,
-				desc = 'Rename (force)',
+				desc = 'Rename (replace)',
 			},
 		},
 		opts = {
