@@ -5,21 +5,69 @@ return {
 		opts = {},
 	},
 
-	-- only show list chars for selected chars/lines
+	-- shows available keymaps as you type
 	{
-		enabled = false, -- TODO: enable after 0.10.3 or 0.11.0 releases
-		'mcauley-penney/visual-whitespace.nvim',
-		branch = 'incremental-hl', -- TODO: switch to main after merged
-		config = true,
+		'folke/which-key.nvim',
+		event = 'VeryLazy',
+		keys = {
+			{
+				'<leader>?',
+				function()
+					require('which-key').show({ global = false })
+				end,
+				desc = 'Buffer Local Keymaps (which-key)',
+			},
+		},
+		--- @module 'which-key'
+		--- @class wk.Opts
+		opts = {
+			preset = 'helix',
+			--- @type wk.Spec
+			spec = {
+				{
+					mode = 'n',
+					{ '<leader>a', group = 'AI' },
+					{ '<leader>b', group = 'Buffers' },
+					{ '<leader>c', group = 'Coding' },
+					{ '<leader>d', group = 'Debug' },
+					{ '<leader>f', group = 'Files' },
+					{ '<leader>g', group = 'Git' },
+					{ '<leader>i', group = 'Interfaces' },
+					{ '<leader>q', group = 'Quit' },
+					{ '<leader>s', group = 'Search' },
+					{ '<leader>gsd', group = 'Diff' },
+					{ '<leader>gs', group = 'Search' },
+					{ '<leader>go', group = 'Open URL' },
+					{ '<leader>gy', group = 'Copy URL' },
+					{ '<leader>u', group = 'Options' },
+					{ '<leader>w', group = 'Windows' },
+					{ '<leader>x', group = 'Quickfix' },
+				},
+			},
+			icons = {
+				mappings = false,
+				breadcrumb = '»', -- symbol used in the command line area that shows your active key combo
+				separator = ' ▎ ', -- symbol used between a key and it's label
+			},
+			show_help = false,
+			sort = { 'local', 'order', 'alphanum', 'mod' },
+		},
+	},
+	{
+		'navarasu/onedark.nvim',
+		opts = {
+			highlights = {
+				WhichKeyBorder = { bg = '$bg_d', fg = '$bg_d' },
+				WhichKeyTitle = { bg = '$bg_d', fg = '$blue' },
+				WhichKeySeparator = { fg = '$grey' },
+				WhichKey = { fg = '$purple' },
+				WhichKeyGroup = { fg = '$grey' },
+				WhichKeyDesc = { fg = '$fg' },
+			},
+		},
 	},
 
-	-- emulates the smear cursor from neovide/kitty
-	{
-		enabled = false,
-		'sphamba/smear-cursor.nvim',
-		opts = {},
-	},
-
+	-- UI for showing key presses, useful for recording
 	{
 		'NStefan002/screenkey.nvim',
 		cmd = 'ScreenKey',
