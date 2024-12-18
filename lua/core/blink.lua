@@ -3,16 +3,14 @@ return {
 		'saghen/blink.cmp',
 		-- version = 'v0.*',
 		dev = true,
-		-- note: requires nightly: https://rust-lang.github.io/rustup/concepts/channels.html#working-with-nightly-rust
 		build = 'cargo build --release',
-		lazy = false,
 		-- optional: provides snippets for the snippet source
 		dependencies = 'rafamadriz/friendly-snippets',
 		--- @module 'blink.cmp'
 		--- @type blink.cmp.Config
-		--- @diagnostic disable: missing-fields
 		opts = {
 			keymap = {
+				preset = 'none',
 				['<C-space>'] = { 'show', 'show_documentation', 'hide_documentation' },
 				['<C-e>'] = { 'cancel' },
 				['<C-g>'] = { 'accept' },
@@ -32,43 +30,7 @@ return {
 				nerd_font_variant = 'normal',
 				use_nvim_cmp_as_default = true,
 			},
-			sources = {
-				default = { 'lsp', 'buffer', 'path' },
-				-- default = { 'lsp', 'buffer', 'path', 'snippets' },
-				-- default = { 'lsp', 'buffer', 'luasnip', 'path' },
-				cmdline = {},
-				providers = {
-					snippets = {
-						opts = {
-							extended_filetypes = {
-								lua = { 'typescript' },
-							},
-						},
-					},
-				},
-			},
-
-			snippets = {
-				expand = function(snippet)
-					require('luasnip').lsp_expand(snippet)
-				end,
-				active = function(filter)
-					if filter and filter.direction then
-						return require('luasnip').jumpable(filter.direction)
-					end
-					return require('luasnip').in_snippet()
-				end,
-				jump = function(direction)
-					require('luasnip').jump(direction)
-				end,
-			},
-
-			completion = {
-				-- list = { selection = 'auto_insert' },
-				accept = { auto_brackets = { enabled = true } },
-				documentation = { auto_show = false },
-				ghost_text = { enabled = false },
-			},
+			sources = { default = { 'lsp', 'buffer', 'path' } },
 
 			signature = { enabled = true },
 		},
@@ -189,9 +151,7 @@ return {
 		},
 		opts = {
 			chartoggle = { enabled = true },
-			delimiters = {
-				enabled = true,
-			},
+			delimiters = { enabled = true },
 			select = {
 				enabled = true,
 				mapping = {
